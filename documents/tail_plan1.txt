@@ -117,6 +117,7 @@ output : text => filePath
        'a.txt'
 input :array => cmdLineArgs
        ['node','tail.js','a.txt']
+name  : parseOptionsFromArgs(cmdLineArgs)
         
 =====> Extract last N number of lines in a  file when the count is specified <=====
 
@@ -259,7 +260,7 @@ output : text => formattedLines
 input : array of text => lastTenLines
     ['2','3','4','5','6','7','8','9','10','11']
 name : getFormattedLines(lastTenLines)
-
+--------
 [3.2] previous Step
         ===> Will give last 10 lines when the line count is greater than 10
 output : array of text => extractedLines
@@ -269,14 +270,19 @@ input : array of text => usrInputLines
 name : getExtractedLines(usrInputLines)
 
         ===> Give all lines when the number of lines are less than 10
-
+output : array of text => extractedLines
+        ['1','2','3','4']
+input  : array of text => usrInputLines
+        ['1','2','3','4']
+name   :getExtractedLines(usrInputLines)
+-------
 [3.3]
 output : text => usrInput
     ['1','2','3','4','5','6','7','8','9','10','11']
 input :text => usrInput
     '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11'
 name : getUserInputLines(usrInput)
-
+-------
 [3.4]
 output : text => usrInput
     '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11'
@@ -328,21 +334,21 @@ output : text => formattedLines
 input : array of text => lastTenLines
     ['9','10','11']
 name : getFormattedLines(lastTenLines)
-
+------
 [4.2] previous Step
 output : array of text => extractedLines
     ['9','10','11']
 input : array of text => usrInputLines
     ['1','2','3','4','5','6','7','8','9','10','11']
 name : getExtractedLines(usrInputLines)
-
+------
 [4.3]
 output : text => usrInput
     ['1','2','3','4','5','6','7','8','9','10','11']
 input :text => usrInput
     '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11'
 name : getUserInputLines(usrInput)
-
+------
 [4.4]
 output : text => usrInput
     '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11'
@@ -360,7 +366,7 @@ input : texts => inputLines
         11
 name : collect all user inputs
         giveUserInputs(line)
-
+-----
 [4.5]
         ====> continue when the line count is valid
 output : object of text => parsedOption
@@ -375,4 +381,166 @@ output : ERROR => err
 input  : array of text => cmdLineArgs 
         ['node','tail.js','-n','a'] 
 name   : parseOptionsFromArgs(cmdLineArgs)
+
+=======>Last 10 lines of multiple files <=======
+  Possibilities :>
+  * File contains 10 lines or more than 10 lines.
+  * File contains less than 10 lines.
+  * Few file is missing.  
+
+example :
+ node tail.js a.txt b.txt
+ ==> a.txt <==
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+
+==> b.txt <==
+        11
+        12
+        13
+        14
+        15
+        16
+        17
+        18
+        19
+        20
+
+[5.1] Last Step
+output : text => formattedLines
+==> a.txt <==
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+input : array of text => lastTenLines
+    ['2','3','4','5','6','7','8','9','10','11']
+name : getFormattedLines(lastTenLines)
+
+-----------
+
+[5.2] previous Step
+        ==> Extract last 10 lines when the file contains more than 10 lines
+output : array of text => lastTenLines
+        ['2','3','4','5','6','7','8','9','10','11']
+input : text => filePath
+        'a.txt'
+name  : extractLastTenLines(filePath)
+
+        ==> Extract all lines when the number of lines are less than 10
+output : array of text => lastTenLines
+        ['7','8','9','10','11']
+input : text => filePath
+        'a.txt'
+name  : extractLastTenLines(filePath)
+
+        ==> Show error when the file is not exist
+output : err
+       ERROR : file does not exist
+input : text => filePath
+        'a.txt'
+----------- repeat the flow for all files
+[5.3] 
+output : array of texts => filesPaths
+        ['a.txt','b.txt']
+input :array => cmdLineArgs
+       ['node','tail.js','a.txt','b.txt']
+name  : parseOptionsFromArgs(cmdLineArgs)
+
+=========> Last N lines of multiple files <=========
+Possibilities :>
+  * File contains N lines or more than N lines.
+  * File contains less than N lines.
+  * Few file is missing. 
+  * Invalid line number count
+
+  example :
+  node tail.js -n 3 a.txt b.txt
+ ==> a.txt <==
+        8
+        9
+        10
+
+==> b.txt <==
+        18
+        19
+        20
+[6.1] last Step
+output : text => formattedLines
+    8
+    9
+    10
+input : array of text => extractedLines
+        ['8',9,'10']
+name  : getFormattedLines(extractedLines)
+
+---------
+
+[6.2] previous Step
+        ==> Give the last N lines when the file contains more than N lines
+output : array of text => extractedLines
+        ['8',9,'10']
+input  : array of text => lines
+        ['1','2','3','4','5','6','7','8',9,'10']
+name   : give extracted lines 
+       getExtractedLines(lines,count)
+
+       ==> Give the whole lines when the line count is less than N
+output : array of text => extractedLines
+        ['8',9,'10']
+input  : array of text => lines
+        ['8',9,'10']
+name   : give extracted lines 
+       getExtractedLines(lines,count)
+
+--------
+
+[6.3] 
+        ==> Give file contents when the file exist
+output : array of text => lines
+        ['6','7','8',9,'10']
+input  : text => filePath
+        'a.txt'
+name   : read and give file contents
+         getFileContents(filePath)
+
+        ==> Show error when the file is not exist
+output : err
+       ERROR : file does not exist
+input  : text => filePath
+        'a.txt'  
+name   : read and give file contents
+         getFileContents(filePath)
+
+---------
+
+[6.4]
+        ===> It will continue when the line number count is valid
+output : object of text => parsedOption
+        {count : '3', filePath : 'a.txt'}
+input  : array of text => cmdLineArgs 
+        ['node','tail.js','-n','3','a.txt'] 
+name   : parseOptionsFromArgs(cmdLineArgs)
+
+        ===> Show error when the line number count is invalid 
+output : ERROR => err
+        tail: illegal offset -- a
+input  : array of text => cmdLineArgs 
+        ['node','tail.js','-n','a','a.txt'] 
+name   : parseOptionsFromArgs(cmdLineArgs)
+
 
