@@ -1,0 +1,105 @@
+==== Tail ====
+==> Order of Implementation
+1. node tail.js a.txt
+2. node tail.js -n 3 a.txt
+3. cat a.txt | node tail.js
+4. cat a.txt | node tail.js -n 3
+5. node  tail.js  a.txt  b.txt
+6. node -n 3 tail.js  a.txt  b.txt
+
+
+File example
+a.txt =>
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+
+1. Reading content from file and no options specified
+    eg : node tail.js a.txt
+output : 
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+
+2. Reading content from file With line count option is specified
+    eg : node tail.js -n 3 a.txt
+output :
+    9
+    10
+    11
+
+3. Standard input and no option is specified
+    eg : cat a.txt | node tail.js
+output :
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+
+4. Standard input and line count option is specified
+    eg : cat a.txt | node tail.js -n 3
+output :
+    9
+    10
+    11
+
+5. Reading content from file and multiple files are specified
+     eg : node  tail.js  a.txt  b.txt
+output :
+==> a.txt <==
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+
+==> b.txt <==
+    10
+    11
+    12
+    13
+    14
+    15
+    16
+    17
+    18
+    19
+
+6. Reading content from multiple files and line number count is specified
+  eg : node -n 3 tail.js  a.txt  b.txt
+output :
+==> a.txt <==
+    9
+    10
+    11
+
+==> b.txt <==
+    17
+    18
+    19
