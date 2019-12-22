@@ -1,55 +1,18 @@
 ===== todo ======
-==> Order of Implementation
-1. node tail.js a.txt
-2. node tail.js -n 3 a.txt
-3. cat a.txt | node tail.js
-4. cat a.txt | node tail.js -n 3
-5. node  tail.js  a.txt  b.txt
-6. node -n 3 tail.js  a.txt  b.txt
 
-===> work folders need :
+1) work folders need :
                 src , test , appTest
-===> work files need   :
+2) work files need   :
                 tail.js , tailLib.js ,testTailLib.js 
 
-==> Ensure the mocha is running
-==> Ensure the tail.js is running   
+3) Ensure the mocha is running
+4) Ensure the tail.js is running   
+5) npm init - create package.json
+6) add mocha in devDependencies
 
 v.0.1
-* node tail.js a.txt
+node tail.js a.txt
 task needed :>
-  getFileContents
-  getExtractedLines
-  getFormattedLines
-
-* node tail.js -n 3 a.txt
-task needed :>
-  parseOptions
-  getFileContents
-  getExtractedLines
-  getFormattedLines
-
-v.0.2
-* cat a.txt | node tail.js
-task needed :>
-  parseOptions
-  pickMethod
-  gatherUserInputs
-  getSplitLines
-  getExtractedLines
-  getFormattedLines
-
-* cat a.txt | node tail.js -n 3
-task needed :>
-  parseOptions
-  pickMethod
-  gatherUserInputs
-  getSplitLines
-  getExtractedLines
-  getFormattedLines
-
-v.0.3
-* node  tail.js  a.txt  b.txt
-task needed :>
-   change the getFormattedLines method for multiple files
-* node -n 3 tail.js  a.txt  b.txt
+7)  getFileContents
+8) getExtractedLines
+9)  getFormattedLines

@@ -2,7 +2,7 @@
 ==> Order of Implementation
 1. node tail.js a.txt
 2. node tail.js -n 3 a.txt
-3. cat a.txt | node tail.js
+3. node tail.js
 4. cat a.txt | node tail.js -n 3
 5. node  tail.js  a.txt  b.txt
 6. node -n 3 tail.js  a.txt  b.txt
