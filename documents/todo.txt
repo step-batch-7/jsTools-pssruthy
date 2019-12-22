@@ -1,14 +1,14 @@
 ===== todo ======
 
-1) work folders need :
+done --> 1) work folders need :
                 src , test , appTest
-2) work files need   :
+done --> 2) work files need   :
                 tail.js , tailLib.js ,testTailLib.js 
 
-3) Ensure the mocha is running
-4) Ensure the tail.js is running   
-5) npm init - create package.json
-6) add mocha in devDependencies
+done --> 3) Ensure the mocha is running
+done --> 4) Ensure the tail.js is running   
+done --> 5) npm init - create package.json
+done --> 6) add mocha in devDependencies
 
 v.0.1
 node tail.js a.txt
