@@ -16,3 +16,5 @@ task needed :>
 7)  getFileContents
 done --> 8) getExtractedLines
 done --> 9)  getFormattedLines
+
+10) Add npm test
