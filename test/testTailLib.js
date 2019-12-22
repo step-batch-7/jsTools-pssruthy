@@ -45,5 +45,13 @@ describe('tailLib', () => {
       const actual = getFileContent({ readFile, exists }, 'a.txt');
       assert.strictEqual(actual, expected);
     });
+    it('Should throw error for not existing file', () => {
+      const exists = path => {
+        return false;
+      };
+      assert.throws(() => {
+        getFileContent({ exists }, 'badFile');
+      }, Error);
+    });
   });
 });
