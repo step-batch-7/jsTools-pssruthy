@@ -14,5 +14,5 @@ v.0.1
 node tail.js a.txt
 task needed :>
 7)  getFileContents
-8) getExtractedLines
+done --> 8) getExtractedLines
 done --> 9)  getFormattedLines
