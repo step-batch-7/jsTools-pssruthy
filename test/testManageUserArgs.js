@@ -35,5 +35,12 @@ describe('manageUserArgs', () => {
       const expected = manageUsrArgsAndGiveTail(cmdLineArgs, fs);
       assert.strictEqual(actual, expected);
     });
+    it('Should give error message when the file does not exist', () => {
+      const exists = path => false;
+      const cmdLineArgs = ['node', 'tail.js', 'badFile'];
+      const actual = manageUsrArgsAndGiveTail(cmdLineArgs, { exists });
+      const expected = 'tail: badFile: No such file or directory';
+      assert.strictEqual(actual, expected);
+    });
   });
 });

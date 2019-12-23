@@ -41,17 +41,22 @@ describe('tailLib', () => {
         assert.strictEqual(path, 'a.txt');
         return true;
       };
-      const expected = '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n';
+      const expected = {
+        name: 'content',
+        content: '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n'
+      };
       const actual = getFileContent({ readFile, exists }, 'a.txt');
-      assert.strictEqual(actual, expected);
+      assert.deepStrictEqual(actual, expected);
     });
-    it('Should throw error for not existing file', () => {
+    it('Should give error message for not existing file', () => {
       const exists = path => {
         return false;
       };
-      assert.throws(() => {
-        getFileContent({ exists }, 'badFile');
-      }, Error);
+      const expected = {
+        name: 'err',
+        content: 'tail: badFile: No such file or directory'
+      };
+      assert.deepStrictEqual(getFileContent({ exists }, 'badFile'), expected);
     });
   });
 });
