@@ -55,7 +55,7 @@ describe('tailLib', () => {
         return true;
       };
       const expected = {
-        name: 'content',
+        err: '',
         content: '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n'
       };
       const actual = getFileContent({ readFile, exists }, 'a.txt');
@@ -66,8 +66,8 @@ describe('tailLib', () => {
         return false;
       };
       const expected = {
-        name: 'err',
-        content: 'tail: badFile: No such file or directory'
+        err: 'tail: badFile: No such file or directory',
+        content: ''
       };
       assert.deepStrictEqual(getFileContent({ exists }, 'badFile'), expected);
     });

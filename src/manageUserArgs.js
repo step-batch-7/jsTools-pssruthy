@@ -8,13 +8,14 @@ const {
 const sudoMain = function(cmdLineArgs, fs) {
   const parsedOptions = parseOption(cmdLineArgs);
   const message = getFileContent(fs, parsedOptions.fileName);
-  if (message.name == 'err') {
-    return message.content;
+  if (message.err != '') {
+    return message;
   }
   const contents = message.content.split('\n');
   const lines = contents.slice(0, contents.length - 1);
   const extractedLines = getExtractedLines(lines, parsedOptions.lineCount);
-  return getFormattedLines(extractedLines);
+  message.content = getFormattedLines(extractedLines);
+  return message;
 };
 
 module.exports = { sudoMain };

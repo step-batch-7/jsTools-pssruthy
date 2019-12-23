@@ -1,0 +1,4 @@
+node tail.js -n 3 appTest/goodFile.txt
+9
+10
+11

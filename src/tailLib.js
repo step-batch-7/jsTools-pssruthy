@@ -6,15 +6,12 @@ const getExtractedLines = function(fileContents, lineCount) {
   return extractedLine.reverse();
 };
 const getFileContent = function(fs, path) {
-  let message = {};
+  let message = { err: '', content: '' };
   if (!fs.exists(path)) {
-    message = {
-      name: 'err',
-      content: `tail: ${path}: No such file or directory`
-    };
+    message.err = `tail: ${path}: No such file or directory`;
     return message;
   }
-  message = { name: 'content', content: fs.readFile(path, 'utf8') };
+  message.content = fs.readFile(path, 'utf8');
   return message;
 };
 

@@ -41,4 +41,11 @@ v.0.2
 node tail.js -n 3 a.txt
 task needed :>
 done -->  parseOptions
- update getExtractedLines for flexible line count
+done -->  update getExtractedLines for flexible line count
+
+update parseOptions function for invalid line number count
+update the functions to get error stream for errors
+  task needed:>
+    getFileContents
+    sudoMain
+    getFormattedLines
