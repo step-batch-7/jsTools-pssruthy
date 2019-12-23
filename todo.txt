@@ -26,3 +26,10 @@ done --> test/testManageUserArgs.js
 done --> create manageUserArgsAndGiveTail function  
 done --> connect function with main
 done --> add chai in devDependencies
+
+edit getFileContent to manage not existing file
+edit getFormattedLines to manage error message
+
+done --> add runAppTests.sh
+done --> add runAllTests.sh
+done --> add appTest file for first requirement
