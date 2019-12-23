@@ -1,8 +1,8 @@
 const getFormattedLines = function(lines) {
   return lines.join('\n');
 };
-const getExtractedLines = function(fileContents) {
-  const extractedLine = fileContents.reverse().slice(0, 10);
+const getExtractedLines = function(fileContents, lineCount) {
+  const extractedLine = fileContents.reverse().slice(0, lineCount);
   return extractedLine.reverse();
 };
 const getFileContent = function(fs, path) {

@@ -40,5 +40,5 @@ done --> change the manageUserArgsAndGiveTail function name
 v.0.2
 node tail.js -n 3 a.txt
 task needed :>
- parseOptions
+done -->  parseOptions
  update getExtractedLines for flexible line count

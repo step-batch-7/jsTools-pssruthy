@@ -17,15 +17,27 @@ describe('tailLib', () => {
   });
 
   describe('getExtractedLines', () => {
-    it('Should extract lines when the line count greater than 10', () => {
+    it('Should extract lines when the line count greater than 10 when line count is not specified', () => {
       const content = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
-      const actual = getExtractedLines(content);
+      const actual = getExtractedLines(content, 10);
       const expected = ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
       assert.deepStrictEqual(actual, expected);
     });
-    it('Should extract lines when the line count less than 10', () => {
+    it('Should extract lines when the line count less than 10 when line count is not specified', () => {
       const content = ['8', '9', '10', '11'];
-      const actual = getExtractedLines(content);
+      const actual = getExtractedLines(content, 10);
+      const expected = ['8', '9', '10', '11'];
+      assert.deepStrictEqual(actual, expected);
+    });
+    it('Should extract lines when the number of lines greater than specified  line count', () => {
+      const content = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+      const actual = getExtractedLines(content, 4);
+      const expected = ['8', '9', '10', '11'];
+      assert.deepStrictEqual(actual, expected);
+    });
+    it('Should extract lines when the number of lines lesser than specified  line count', () => {
+      const content = ['8', '9', '10', '11'];
+      const actual = getExtractedLines(content, 6);
       const expected = ['8', '9', '10', '11'];
       assert.deepStrictEqual(actual, expected);
     });
