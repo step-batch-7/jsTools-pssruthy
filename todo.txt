@@ -35,4 +35,10 @@ done --> add runAppTests.sh
 done --> add runAllTests.sh
 done --> add appTest file for first requirement
 
-change the manageUserArgsAndGiveTail function name and file
+done --> change the manageUserArgsAndGiveTail function name
+
+v.0.2
+node tail.js -n 3 a.txt
+task needed :>
+ parseOptions
+ update getExtractedLines for flexible line count

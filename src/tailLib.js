@@ -18,4 +18,20 @@ const getFileContent = function(fs, path) {
   return message;
 };
 
-module.exports = { getFormattedLines, getExtractedLines, getFileContent };
+const parseOption = function(cmdLineArgs) {
+  const parsedOptions = { lineCount: 10 };
+  if (cmdLineArgs.includes('-n')) {
+    parsedOptions.lineCount = +cmdLineArgs[cmdLineArgs.indexOf('-n') + 1];
+    parsedOptions.fileName = cmdLineArgs[cmdLineArgs.indexOf('-n') + 2];
+    return parsedOptions;
+  }
+  parsedOptions.fileName = cmdLineArgs[2];
+  return parsedOptions;
+};
+
+module.exports = {
+  getFormattedLines,
+  getExtractedLines,
+  getFileContent,
+  parseOption
+};

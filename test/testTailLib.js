@@ -2,7 +2,8 @@ const { assert } = require('chai');
 const {
   getFormattedLines,
   getExtractedLines,
-  getFileContent
+  getFileContent,
+  parseOption
 } = require('../src/tailLib');
 
 describe('tailLib', () => {
@@ -57,6 +58,20 @@ describe('tailLib', () => {
         content: 'tail: badFile: No such file or directory'
       };
       assert.deepStrictEqual(getFileContent({ exists }, 'badFile'), expected);
+    });
+  });
+  describe('parseOptions', () => {
+    it('Should give parsed options when the count option is not specified', () => {
+      const expected = { lineCount: 10, fileName: 'a.txt' };
+      const cmdLineArgs = ['node', 'tail.js', 'a.txt'];
+      const actual = parseOption(cmdLineArgs);
+      assert.deepStrictEqual(actual, expected);
+    });
+    it('Should give the parsed option when the line count is specified', () => {
+      const expected = { lineCount: 3, fileName: 'a.txt' };
+      const cmdLineArgs = ['node', 'tail.js', '-n', '3', 'a.txt'];
+      const actual = parseOption(cmdLineArgs);
+      assert.deepStrictEqual(actual, expected);
     });
   });
 });
