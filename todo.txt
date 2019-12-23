@@ -23,6 +23,6 @@ create a file in src to manage user inputs
 done --> src/manageUserArgs.js
 done --> test/testManageUserArgs.js
 
-create manageUserArgsAndGiveTail function  
-connect function with main
+done --> create manageUserArgsAndGiveTail function  
+done --> connect function with main
 done --> add chai in devDependencies
