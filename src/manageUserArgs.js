@@ -4,7 +4,7 @@ const {
   getFileContent
 } = require('./tailLib');
 
-const manageUsrArgsAndGiveTail = function(cmdLineArgs, fs) {
+const sudoMain = function(cmdLineArgs, fs) {
   const path = cmdLineArgs[2];
   const message = getFileContent(fs, path);
   if (message.name == 'err') {
@@ -16,4 +16,4 @@ const manageUsrArgsAndGiveTail = function(cmdLineArgs, fs) {
   return getFormattedLines(extractedLines);
 };
 
-module.exports = { manageUsrArgsAndGiveTail };
+module.exports = { sudoMain };

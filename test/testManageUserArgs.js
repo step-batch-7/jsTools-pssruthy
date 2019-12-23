@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const { manageUsrArgsAndGiveTail } = require('./../src/manageUserArgs');
+const { sudoMain } = require('./../src/manageUserArgs');
 
 describe('manageUserArgs', () => {
   describe('manageUsrArgsAndGiveTail', () => {
@@ -16,7 +16,7 @@ describe('manageUserArgs', () => {
         return true;
       };
       const fs = { readFile, exists };
-      const expected = manageUsrArgsAndGiveTail(cmdLineArgs, fs);
+      const expected = sudoMain(cmdLineArgs, fs);
       assert.strictEqual(actual, expected);
     });
     it('Should give tail lines for one file without options and file contains less than 10 lines ', () => {
@@ -32,13 +32,13 @@ describe('manageUserArgs', () => {
         return true;
       };
       const fs = { readFile, exists };
-      const expected = manageUsrArgsAndGiveTail(cmdLineArgs, fs);
+      const expected = sudoMain(cmdLineArgs, fs);
       assert.strictEqual(actual, expected);
     });
     it('Should give error message when the file does not exist', () => {
       const exists = path => false;
       const cmdLineArgs = ['node', 'tail.js', 'badFile'];
-      const actual = manageUsrArgsAndGiveTail(cmdLineArgs, { exists });
+      const actual = sudoMain(cmdLineArgs, { exists });
       const expected = 'tail: badFile: No such file or directory';
       assert.strictEqual(actual, expected);
     });

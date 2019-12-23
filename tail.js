@@ -1,9 +1,9 @@
 const { readFileSync, existsSync } = require('fs');
-const { manageUsrArgsAndGiveTail } = require('./src/manageUserArgs');
+const { sudoMain } = require('./src/manageUserArgs');
 
 const main = function() {
   const fs = { readFile: readFileSync, exists: existsSync };
-  console.log(manageUsrArgsAndGiveTail(process.argv, fs));
+  console.log(sudoMain(process.argv, fs));
 };
 
 main();

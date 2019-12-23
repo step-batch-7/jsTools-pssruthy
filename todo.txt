@@ -34,3 +34,5 @@ done --> edit manageUserArgsAndGiveTail to manage error
 done --> add runAppTests.sh
 done --> add runAllTests.sh
 done --> add appTest file for first requirement
+
+change the manageUserArgsAndGiveTail function name and file
