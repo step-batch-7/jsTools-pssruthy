@@ -1,0 +1,2 @@
+node tail.js badFile
+tail: badFile: No such file or directory
