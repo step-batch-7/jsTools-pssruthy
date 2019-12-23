@@ -23,9 +23,9 @@ describe('tailLib', () => {
       assert.deepStrictEqual(actual, expected);
     });
     it('Should extract lines when the line count less than 10', () => {
-      const content = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+      const content = ['8', '9', '10', '11'];
       const actual = getExtractedLines(content);
-      const expected = ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+      const expected = ['8', '9', '10', '11'];
       assert.deepStrictEqual(actual, expected);
     });
   });

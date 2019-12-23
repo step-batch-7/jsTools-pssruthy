@@ -27,9 +27,9 @@ done --> create manageUserArgsAndGiveTail function
 done --> connect function with main
 done --> add chai in devDependencies
 
-edit getFileContent to manage not existing file
-edit getFormattedLines to manage error message
-edit manageUserArgsAndGiveTail to manage error
+done --> edit getFileContent to manage not existing file
+not now --> edit getFormattedLines to manage error message
+done --> edit manageUserArgsAndGiveTail to manage error
 
 done --> add runAppTests.sh
 done --> add runAllTests.sh

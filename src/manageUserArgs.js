@@ -11,8 +11,8 @@ const manageUsrArgsAndGiveTail = function(cmdLineArgs, fs) {
     return message.content;
   }
   const contents = message.content.split('\n');
-  const splitLines = contents.slice(0, contents.length - 1);
-  const extractedLines = getExtractedLines(splitLines);
+  const lines = contents.slice(0, contents.length - 1);
+  const extractedLines = getExtractedLines(lines);
   return getFormattedLines(extractedLines);
 };
 

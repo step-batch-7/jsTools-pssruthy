@@ -2,7 +2,8 @@ const getFormattedLines = function(lines) {
   return lines.join('\n');
 };
 const getExtractedLines = function(fileContents) {
-  return fileContents.slice(fileContents.length - 10);
+  const extractedLine = fileContents.reverse().slice(0, 10);
+  return extractedLine.reverse();
 };
 const getFileContent = function(fs, path) {
   let message = {};
