@@ -13,16 +13,14 @@ done --> 6) add mocha in devDependencies
 v.0.1
 node tail.js a.txt
 task needed :>
-done --> 7)  getFileContents
-done --> 8) getExtractedLines
-done --> 9)  getFormattedLines
+done --> getFileContents
+done --> getExtractedLines
+done --> getFormattedLines
 
-done --> 10) Add npm test
+done --> Add npm test
 
 create a file in src to manage user inputs
-done --> src/manageUserArgs.js
-done --> test/testManageUserArgs.js
-
-create manageUserArgsAndGiveTail function  
+ src/manageUserArgs.js
+ test/testManageUserArgs.js
+  
 connect function with main
-done --> add chai in devDependencies
