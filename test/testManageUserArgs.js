@@ -19,5 +19,21 @@ describe('manageUserArgs', () => {
       const expected = manageUsrArgsAndGiveTail(cmdLineArgs, fs);
       assert.strictEqual(actual, expected);
     });
+    it('Should give tail lines for one file without options and file contains less than 10 lines ', () => {
+      const actual = '9\n10\n11';
+      const cmdLineArgs = ['node', 'tail.js', 'a.txt'];
+      const readFile = function(path, encoding) {
+        assert.strictEqual(path, 'a.txt');
+        assert.strictEqual(encoding, 'utf8');
+        return '9\n10\n11';
+      };
+      const exists = path => {
+        assert.strictEqual(path, 'a.txt');
+        return true;
+      };
+      const fs = { readFile, exists };
+      const expected = manageUsrArgsAndGiveTail(cmdLineArgs, fs);
+      assert.strictEqual(actual, expected);
+    });
   });
 });
