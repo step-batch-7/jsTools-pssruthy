@@ -25,7 +25,7 @@ const parseOption = function(cmdLineArgs) {
     if (!Number.isInteger(+lineCount)) {
       return { err: `tail: illegal offset -- ${lineCount}` };
     }
-    parsedOptions.lineCount = +lineCount;
+    parsedOptions.lineCount = Math.abs(+lineCount);
     parsedOptions.fileName = userOptions[userOptions.indexOf('-n') + 2];
     return parsedOptions;
   }
@@ -35,13 +35,9 @@ const parseOption = function(cmdLineArgs) {
 
 const performTail = function(cmdLineArgs, fs) {
   const parsedOptions = parseOption(cmdLineArgs);
-  if (parsedOptions.err) {
-    return parsedOptions;
-  }
+  if (parsedOptions.err) return parsedOptions;
   const message = getFileContent(fs, parsedOptions.fileName);
-  if (message.err) {
-    return message;
-  }
+  if (message.err) return message;
   const fileContent = message.content.split('\n');
   fileContent.pop();
   const extractedLines = getExtractedLines(

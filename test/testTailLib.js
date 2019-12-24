@@ -92,6 +92,24 @@ describe('tailLib', () => {
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);
     });
+    it('Should give the parsed option when the line count is specified and count is zero', () => {
+      const expected = { lineCount: 0, fileName: 'a.txt' };
+      const cmdLineArgs = ['node', 'tail.js', '-n', '0', 'a.txt'];
+      const actual = parseOption(cmdLineArgs);
+      assert.deepStrictEqual(actual, expected);
+    });
+    it('Should give error when the line count is an fractional number', () => {
+      const expected = { err: 'tail: illegal offset -- 3.3' };
+      const cmdLineArgs = ['node', 'tail.js', '-n', '3.3', 'a.txt'];
+      const actual = parseOption(cmdLineArgs);
+      assert.deepStrictEqual(actual, expected);
+    });
+    it('Should give the parsed option when the line count is specified and count is negative', () => {
+      const expected = { lineCount: 3, fileName: 'a.txt' };
+      const cmdLineArgs = ['node', 'tail.js', '-n', '-3', 'a.txt'];
+      const actual = parseOption(cmdLineArgs);
+      assert.deepStrictEqual(actual, expected);
+    });
   });
   describe('performTail', () => {
     it('Should give tail 10 lines for one file without options and file contains more than 10 lines ', () => {

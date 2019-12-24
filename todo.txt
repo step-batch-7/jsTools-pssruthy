@@ -52,3 +52,4 @@ done --> performTail
 add configFile
 refract the code 
    done --> move the performTail to tailLib.js
+   
