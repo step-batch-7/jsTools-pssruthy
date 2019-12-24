@@ -45,5 +45,22 @@ describe('manageUserArgs', () => {
       };
       assert.deepStrictEqual(actual, expected);
     });
+    it('Should give the extracted lines when the line count is specified and valid', () => {
+      const readFile = function(path, encoding) {
+        return '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n';
+      };
+      const exists = path => true;
+      const fs = { readFile, exists };
+      const cmdLineArgs = ['node', 'tail.js', '-n', '3', 'tail.js'];
+      const actual = sudoMain(cmdLineArgs, fs);
+      const expected = { err: '', content: '9\n10\n11' };
+      assert.deepStrictEqual(actual, expected);
+    });
+    it('Should give error message when the line count is not valid', () => {
+      const cmdLineArgs = ['node', 'tail.js', '-n', 'r', 'tail.js'];
+      const actual = sudoMain(cmdLineArgs, {});
+      const expected = { err: 'tail: illegal offset -- r' };
+      assert.deepStrictEqual(actual, expected);
+    });
   });
 });
