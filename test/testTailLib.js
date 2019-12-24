@@ -85,5 +85,11 @@ describe('tailLib', () => {
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);
     });
+    it('Should give error when the line count is not a valid number', () => {
+      const expected = { err: 'tail: illegal offset -- r' };
+      const cmdLineArgs = ['node', 'tail.js', '-n', 'r', 'a.txt'];
+      const actual = parseOption(cmdLineArgs);
+      assert.deepStrictEqual(actual, expected);
+    });
   });
 });

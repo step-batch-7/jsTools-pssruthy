@@ -17,12 +17,17 @@ const getFileContent = function(fs, path) {
 
 const parseOption = function(cmdLineArgs) {
   const parsedOptions = { lineCount: 10 };
-  if (cmdLineArgs.includes('-n')) {
-    parsedOptions.lineCount = +cmdLineArgs[cmdLineArgs.indexOf('-n') + 1];
-    parsedOptions.fileName = cmdLineArgs[cmdLineArgs.indexOf('-n') + 2];
+  const usrOptions = cmdLineArgs.slice(2);
+  if (usrOptions.includes('-n')) {
+    const lineCount = usrOptions[usrOptions.indexOf('-n') + 1];
+    if (!Number.isInteger(+lineCount)) {
+      return { err: `tail: illegal offset -- ${lineCount}` };
+    }
+    parsedOptions.lineCount = +lineCount;
+    parsedOptions.fileName = usrOptions[usrOptions.indexOf('-n') + 2];
     return parsedOptions;
   }
-  parsedOptions.fileName = cmdLineArgs[2];
+  parsedOptions.fileName = usrOptions[0];
   return parsedOptions;
 };
 

@@ -7,6 +7,9 @@ const {
 
 const sudoMain = function(cmdLineArgs, fs) {
   const parsedOptions = parseOption(cmdLineArgs);
+  if (parsedOptions.err) {
+    return parsedOptions;
+  }
   const message = getFileContent(fs, parsedOptions.fileName);
   if (message.err != '') {
     return message;

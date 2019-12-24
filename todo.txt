@@ -46,6 +46,6 @@ done -->  update getExtractedLines for flexible line count
 update parseOptions function for invalid line number count
 update the functions to get error stream for errors
   task needed:>
-    getFileContents
-    sudoMain
+done --> getFileContents
+done --> sudoMain
     getFormattedLines
