@@ -1,8 +1,8 @@
 const { performTail } = require('./src/tailLib');
-const { getFileSystem } = require('./src/config');
+const { readFileSync, existsSync } = require('fs');
 
 const main = function() {
-  const fs = getFileSystem();
+  const fs = { readFile: readFileSync, exists: existsSync };
   const result = performTail(process.argv, fs);
   result.err && console.error(result.err);
   result.content && console.log(result.content);
