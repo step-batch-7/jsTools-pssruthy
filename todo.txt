@@ -1,60 +1,61 @@
 ===== todo ======
 
-done --> 1) work folders need :
+✅ --> 1) work folders need :
                 src , test , appTest
-done --> 2) work files need   :
+✅ --> 2) work files need   :
                 tail.js , tailLib.js ,testTailLib.js 
 
-done --> 3) Ensure the mocha is running
-done --> 4) Ensure the tail.js is running   
-done --> 5) npm init - create package.json
-done --> 6) add mocha in devDependencies
+✅ --> 3) Ensure the mocha is running
+✅ --> 4) Ensure the tail.js is running   
+✅ --> 5) npm init - create package.json
+✅ --> 6) add mocha in devDependencies
 
 v.0.1
 node tail.js a.txt
 task needed :>
-done --> 7)  getFileContents
-done --> 8) getExtractedLines
-done --> 9)  getFormattedLines
+✅ --> 7)  getFileContents
+✅ --> 8) getExtractedLines
+✅ --> 9)  getFormattedLines
 
-done --> 10) Add npm test
+✅ --> 10) Add npm test
 
 create a file in src to manage user inputs
-done --> src/manageUserArgs.js
-done --> test/testManageUserArgs.js
+✅ --> src/manageUserArgs.js
+✅ --> test/testManageUserArgs.js
 
-done --> create manageUserArgsAndGiveTail function  
-done --> connect function with main
-done --> add chai in devDependencies
+✅ --> create manageUserArgsAndGiveTail function  
+✅ --> connect function with main
+✅ --> add chai in devDependencies
 
-done --> edit getFileContent to manage not existing file
+✅ --> edit getFileContent to manage not existing file
 not now --> edit getFormattedLines to manage error message
-done --> edit manageUserArgsAndGiveTail to manage error
+✅ --> edit manageUserArgsAndGiveTail to manage error
 
-done --> add runAppTests.sh
-done --> add runAllTests.sh
-done --> add appTest file for first requirement
+✅ --> add runAppTests.sh
+✅ --> add runAllTests.sh
+✅ --> add appTest file for first requirement
 
-done --> change the manageUserArgsAndGiveTail function name
+✅ --> change the manageUserArgsAndGiveTail function name
 
 v.0.2
 node tail.js -n 3 a.txt
 task needed :>
-done -->  parseOptions
-done -->  update getExtractedLines for flexible line count
+✅ -->  parseOptions
+✅ -->  update getExtractedLines for flexible line count
 
-done --> update parseOptions function for invalid line number count
+✅ --> update parseOptions function for invalid line number count
 update the functions to get error stream for errors
   task needed:>
-done --> getFileContents
-done --> performTail
+✅ --> getFileContents
+✅ --> performTail
 
 add configFile
 refract the code 
-   done --> move the performTail to tailLib.js
+   ✅ --> move the performTail to tailLib.js
 
-done --> remove config file and test file
-done --> Update runAppTests.sh file
-done --> remove condition in main
+✅ --> remove config file and test file
+✅ --> Update runAppTests.sh file
+✅ --> remove condition in main
 
-send the file name as array
+--> send the file name as array
+✅ --> pull the performTail to different file

@@ -1,5 +1,5 @@
 'use strict';
-const { performTail } = require('./src/tailLib');
+const { performTail } = require('./src/performTail');
 const { readFileSync, existsSync } = require('fs');
 const { stdout, stderr } = process;
 
