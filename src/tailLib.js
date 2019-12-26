@@ -36,16 +36,16 @@ const parseOption = function(cmdLineArgs) {
 };
 
 const performTail = function(cmdLineArgs, fs) {
-  const optionParseMessage = parseOption(cmdLineArgs);
-  if (optionParseMessage.err) return optionParseMessage;
-  const message = getFileContent(fs, optionParseMessage.content.fileName);
-  if (message.err) return message;
-  const fileContent = message.content.split('\n');
+  const parseOptionInfo = parseOption(cmdLineArgs);
+  if (parseOptionInfo.err) return parseOptionInfo;
+  const readFileInfo = getFileContent(fs, parseOptionInfo.content.fileName);
+  if (readFileInfo.err) return readFileInfo;
+  const fileContent = readFileInfo.content.split('\n');
   fileContent.pop();
-  const lineCount = optionParseMessage.content.lineCount;
+  const lineCount = parseOptionInfo.content.lineCount;
   const extractedLines = getExtractedLines(fileContent, lineCount);
-  message.content = getFormattedLines(extractedLines);
-  return message;
+  readFileInfo.content = getFormattedLines(extractedLines);
+  return readFileInfo;
 };
 
 module.exports = {

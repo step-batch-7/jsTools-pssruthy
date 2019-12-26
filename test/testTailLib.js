@@ -42,6 +42,12 @@ describe('tailLib', () => {
       const expected = ['8', '9', '10', '11'];
       assert.deepStrictEqual(actual, expected);
     });
+    it('Should extract lines when the line number of count is zero', () => {
+      const content = ['8', '9', '10', '11'];
+      const actual = getExtractedLines(content, 0);
+      const expected = [];
+      assert.deepStrictEqual(actual, expected);
+    });
   });
 
   describe('getFileContents', () => {
