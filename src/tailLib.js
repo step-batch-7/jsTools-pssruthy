@@ -8,7 +8,7 @@ const getExtractedLines = function(fileContents, lineCount) {
 };
 
 const getFileContent = function(fs, path) {
-  let message = { err: '', content: '' };
+  const message = { err: '', content: '' };
   if (!fs.exists(path)) {
     message.err = `tail: ${path}: No such file or directory`;
     return message;
@@ -19,18 +19,16 @@ const getFileContent = function(fs, path) {
 
 const parseOption = function(cmdLineArgs) {
   const parsedOptions = { lineCount: 10 };
-  const userOptions = cmdLineArgs.slice(2);
+  let userOptions = cmdLineArgs.slice(2);
   const message = { err: '', content: '' };
-  if (userOptions.includes('-n')) {
-    const lineCount = userOptions[userOptions.indexOf('-n') + 1];
+  if (userOptions[0] == '-n') {
+    const lineCount = userOptions[1];
     if (!Number.isInteger(+lineCount)) {
       message.err = `tail: illegal offset -- ${lineCount}`;
       return message;
     }
     parsedOptions.lineCount = Math.abs(+lineCount);
-    parsedOptions.fileName = userOptions[userOptions.indexOf('-n') + 2];
-    message.content = parsedOptions;
-    return message;
+    userOptions = userOptions.slice(2);
   }
   parsedOptions.fileName = userOptions[0];
   message.content = parsedOptions;
@@ -44,10 +42,8 @@ const performTail = function(cmdLineArgs, fs) {
   if (message.err) return message;
   const fileContent = message.content.split('\n');
   fileContent.pop();
-  const extractedLines = getExtractedLines(
-    fileContent,
-    optionParseMessage.content.lineCount
-  );
+  const lineCount = optionParseMessage.content.lineCount;
+  const extractedLines = getExtractedLines(fileContent, lineCount);
   message.content = getFormattedLines(extractedLines);
   return message;
 };
