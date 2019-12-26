@@ -1,3 +1,4 @@
+'use strict';
 const getFormattedLines = function(lines) {
   return lines.join('\n');
 };
@@ -9,11 +10,11 @@ const getExtractedLines = function(fileContents, lineCount) {
 
 const getFileContent = function(fs, path) {
   const message = { err: '', content: '' };
-  if (!fs.exists(path)) {
+  if (!fs.existsSync(path)) {
     message.err = `tail: ${path}: No such file or directory`;
     return message;
   }
-  message.content = fs.readFile(path, 'utf8');
+  message.content = fs.readFileSync(path, 'utf8');
   return message;
 };
 

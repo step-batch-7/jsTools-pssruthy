@@ -56,3 +56,5 @@ refract the code
 done --> remove config file and test file
 done --> Update runAppTests.sh file
 done --> remove condition in main
+
+send the file name as array
