@@ -5,7 +5,8 @@ const {
   getExtractedLines,
   getFileContent,
   parseOption,
-  performTail
+  performTail,
+  getTail
 } = require('../src/tailLib');
 
 describe('tailLib', () => {
@@ -192,6 +193,13 @@ describe('tailLib', () => {
       const actual = performTail(cmdLineArgs, {});
       const expected = { err: 'tail: illegal offset -- r', content: '' };
       assert.deepStrictEqual(actual, expected);
+    });
+  });
+  describe('getTail', () => {
+    it('Should give tail according to the line count', () => {
+      const expected = '2\n3\n4\n5\n6\n7\n8\n9\n10\n11';
+      const content = '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n';
+      assert.strictEqual(getTail(content, 10), expected);
     });
   });
 });
