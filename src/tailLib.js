@@ -20,29 +20,33 @@ const getFileContent = function(fs, path) {
 const parseOption = function(cmdLineArgs) {
   const parsedOptions = { lineCount: 10 };
   const userOptions = cmdLineArgs.slice(2);
+  const message = { err: '', content: '' };
   if (userOptions.includes('-n')) {
     const lineCount = userOptions[userOptions.indexOf('-n') + 1];
     if (!Number.isInteger(+lineCount)) {
-      return { err: `tail: illegal offset -- ${lineCount}` };
+      message.err = `tail: illegal offset -- ${lineCount}`;
+      return message;
     }
     parsedOptions.lineCount = Math.abs(+lineCount);
     parsedOptions.fileName = userOptions[userOptions.indexOf('-n') + 2];
-    return parsedOptions;
+    message.content = parsedOptions;
+    return message;
   }
   parsedOptions.fileName = userOptions[0];
-  return parsedOptions;
+  message.content = parsedOptions;
+  return message;
 };
 
 const performTail = function(cmdLineArgs, fs) {
-  const parsedOptions = parseOption(cmdLineArgs);
-  if (parsedOptions.err) return parsedOptions;
-  const message = getFileContent(fs, parsedOptions.fileName);
+  const optionParseMessage = parseOption(cmdLineArgs);
+  if (optionParseMessage.err) return optionParseMessage;
+  const message = getFileContent(fs, optionParseMessage.content.fileName);
   if (message.err) return message;
   const fileContent = message.content.split('\n');
   fileContent.pop();
   const extractedLines = getExtractedLines(
     fileContent,
-    parsedOptions.lineCount
+    optionParseMessage.content.lineCount
   );
   message.content = getFormattedLines(extractedLines);
   return message;

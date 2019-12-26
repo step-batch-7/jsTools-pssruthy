@@ -5,8 +5,8 @@ const { stdout, stderr } = process;
 const main = function() {
   const fs = { readFile: readFileSync, exists: existsSync };
   const result = performTail(process.argv, fs);
-  result.err && stderr.write(result.err);
-  result.content && stdout.write(result.content);
+  stderr.write(result.err);
+  stdout.write(result.content);
 };
 
 main();

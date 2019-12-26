@@ -55,3 +55,4 @@ refract the code
 
 done --> remove config file and test file
 done --> Update runAppTests.sh file
+remove condition in main
