@@ -88,7 +88,7 @@ describe('tailLib', () => {
         err: '',
         content: { lineCount: 10, fileName: 'a.txt' }
       };
-      const cmdLineArgs = ['node', 'tail.js', 'a.txt'];
+      const cmdLineArgs = ['a.txt'];
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);
     });
@@ -97,13 +97,13 @@ describe('tailLib', () => {
         err: '',
         content: { lineCount: 3, fileName: 'a.txt' }
       };
-      const cmdLineArgs = ['node', 'tail.js', '-n', '3', 'a.txt'];
+      const cmdLineArgs = ['-n', '3', 'a.txt'];
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give error when the line count is an alphabet', () => {
       const expected = { err: 'tail: illegal offset -- r', content: '' };
-      const cmdLineArgs = ['node', 'tail.js', '-n', 'r', 'a.txt'];
+      const cmdLineArgs = ['-n', 'r', 'a.txt'];
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);
     });
@@ -112,13 +112,13 @@ describe('tailLib', () => {
         err: '',
         content: { lineCount: 0, fileName: 'a.txt' }
       };
-      const cmdLineArgs = ['node', 'tail.js', '-n', '0', 'a.txt'];
+      const cmdLineArgs = ['-n', '0', 'a.txt'];
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give error when the line count is an fractional number', () => {
       const expected = { err: 'tail: illegal offset -- 3.3', content: '' };
-      const cmdLineArgs = ['node', 'tail.js', '-n', '3.3', 'a.txt'];
+      const cmdLineArgs = ['-n', '3.3', 'a.txt'];
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);
     });
@@ -127,7 +127,7 @@ describe('tailLib', () => {
         err: '',
         content: { lineCount: 3, fileName: 'a.txt' }
       };
-      const cmdLineArgs = ['node', 'tail.js', '-n', '-3', 'a.txt'];
+      const cmdLineArgs = ['-n', '-3', 'a.txt'];
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);
     });

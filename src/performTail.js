@@ -15,7 +15,7 @@ const getBottomLines = function(fileContent, lineCount) {
 };
 
 const performTail = function(cmdLineArgs, fs) {
-  const parseOptionInfo = parseOption(cmdLineArgs);
+  const parseOptionInfo = parseOption(cmdLineArgs.slice(2));
   if (parseOptionInfo.err) return parseOptionInfo;
   const readFileInfo = getFileContent(fs, parseOptionInfo.content.fileName);
   if (readFileInfo.err) return readFileInfo;

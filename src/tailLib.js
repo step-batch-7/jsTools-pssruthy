@@ -19,21 +19,15 @@ const getFileContent = function(fs, path) {
 };
 
 const parseOption = function(cmdLineArgs) {
-  const parsedOptions = { lineCount: 10 };
-  let userOptions = cmdLineArgs.slice(2);
-  const message = { err: '', content: '' };
-  if (userOptions[0] == '-n') {
-    const lineCount = userOptions[1];
-    if (!Number.isInteger(+lineCount)) {
-      message.err = `tail: illegal offset -- ${lineCount}`;
-      return message;
-    }
+  const parsedOptions = { lineCount: 10, fileName: cmdLineArgs[0] };
+  if (cmdLineArgs[0] == '-n') {
+    const lineCount = cmdLineArgs[1];
+    if (!Number.isInteger(+lineCount))
+      return { err: `tail: illegal offset -- ${lineCount}`, content: '' };
     parsedOptions.lineCount = Math.abs(+lineCount);
-    userOptions = userOptions.slice(2);
+    parsedOptions.fileName = cmdLineArgs[2];
   }
-  parsedOptions.fileName = userOptions[0];
-  message.content = parsedOptions;
-  return message;
+  return { err: '', content: parsedOptions };
 };
 
 module.exports = {
