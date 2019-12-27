@@ -7,7 +7,7 @@ const main = function() {
   const fs = { readFileSync, existsSync };
   const result = performTail(process.argv, fs);
   stderr.write(result.err);
-  stdout.write(`${result.content}`);
+  stdout.write(`${result.content}\n`);
 };
 
 main();
