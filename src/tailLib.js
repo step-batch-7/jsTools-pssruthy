@@ -1,11 +1,8 @@
 'use strict';
-const getFormattedLines = function(lines) {
-  return lines.join('\n');
-};
 
 const getExtractedLines = function(fileContents, lineCount) {
   const extractedLine = fileContents.reverse().slice(0, lineCount);
-  return extractedLine.reverse();
+  return extractedLine.reverse().join('\n');
 };
 
 const getFileContent = function(fs, path) {
@@ -27,7 +24,6 @@ const parseOption = function(cmdLineArgs) {
 };
 
 module.exports = {
-  getFormattedLines,
   getExtractedLines,
   getFileContent,
   parseOption

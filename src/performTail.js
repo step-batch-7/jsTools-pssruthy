@@ -10,8 +10,7 @@ const getBottomLines = function(fileContent, lineCount) {
   const lines = fileContent.split('\n');
   lines.pop();
   const extractedLines = getExtractedLines(lines, lineCount);
-  const tail = getFormattedLines(extractedLines);
-  return tail;
+  return extractedLines;
 };
 
 const performTail = function(cmdLineArgs, fs) {
