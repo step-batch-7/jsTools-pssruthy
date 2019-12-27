@@ -46,9 +46,8 @@ describe('performTail', () => {
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give the extracted lines when the line count is specified and valid', () => {
-      const readFileSync = function(path, encoding) {
-        return '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n';
-      };
+      const readFileSync = (path, encoding) =>
+        '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n';
       const existsSync = path => true;
       const fs = { readFileSync, existsSync };
       const cmdLineArgs = ['node', 'tail.js', '-n', '3', 'tail.js'];
