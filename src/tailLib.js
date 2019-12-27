@@ -6,9 +6,9 @@ const getExtractedLines = function(fileContents, lineCount) {
 };
 
 const getFileContent = function(fs, path) {
-  const err = `tail: ${path}: No such file or directory`;
-  if (!fs.existsSync(path)) return { err, content: '' };
-  return { err: '', content: fs.readFileSync(path, 'utf8') };
+  const fileErr = `tail: ${path}: No such file or directory`;
+  if (!fs.existsSync(path)) return { fileErr, fileContent: '' };
+  return { fileErr: '', fileContent: fs.readFileSync(path, 'utf8') };
 };
 
 const parseOption = function(cmdLineArgs) {
@@ -16,11 +16,14 @@ const parseOption = function(cmdLineArgs) {
   if (cmdLineArgs[0] == '-n') {
     const lineCount = cmdLineArgs[1];
     if (!Number.isInteger(+lineCount))
-      return { err: `tail: illegal offset -- ${lineCount}`, content: '' };
+      return {
+        optionErr: `tail: illegal offset -- ${lineCount}`,
+        parsedOptions: ''
+      };
     parsedOptions.lineCount = Math.abs(+lineCount);
     parsedOptions.fileName = cmdLineArgs[2];
   }
-  return { err: '', content: parsedOptions };
+  return { optionErr: '', parsedOptions };
 };
 
 module.exports = {

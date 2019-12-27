@@ -1,10 +1,5 @@
 'use strict';
-const {
-  getFormattedLines,
-  getExtractedLines,
-  getFileContent,
-  parseOption
-} = require('./tailLib');
+const { getExtractedLines, getFileContent, parseOption } = require('./tailLib');
 
 const getBottomLines = function(fileContent, lineCount) {
   const lines = fileContent.split('\n');
@@ -14,12 +9,11 @@ const getBottomLines = function(fileContent, lineCount) {
 };
 
 const performTail = function(cmdLineArgs, fs) {
-  const parseOptionInfo = parseOption(cmdLineArgs.slice(2));
-  if (parseOptionInfo.err) return parseOptionInfo;
-  const readFileInfo = getFileContent(fs, parseOptionInfo.content.fileName);
-  if (readFileInfo.err) return readFileInfo;
-  const lineCount = parseOptionInfo.content.lineCount;
-  const tail = getBottomLines(readFileInfo.content, lineCount);
+  const { optionErr, parsedOptions } = parseOption(cmdLineArgs.slice(2));
+  if (optionErr) return { err: optionErr, content: '' };
+  const { fileErr, fileContent } = getFileContent(fs, parsedOptions.fileName);
+  if (fileErr) return { err: fileErr, content: '' };
+  const tail = getBottomLines(fileContent, parsedOptions.lineCount);
   return { err: '', content: tail };
 };
 
