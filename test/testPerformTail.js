@@ -1,6 +1,6 @@
 'use strict';
 const { assert } = require('chai');
-const { performTail, getBottomLines } = require('./../src/performTail');
+const { performTail } = require('./../src/performTail');
 describe('performTail', () => {
   describe('performTail', () => {
     it('Should give tail 10 lines for one file without options and file contains more than 10 lines ', () => {
@@ -60,13 +60,6 @@ describe('performTail', () => {
       const actual = performTail(cmdLineArgs, {});
       const expected = { err: 'tail: illegal offset -- r', content: '' };
       assert.deepStrictEqual(actual, expected);
-    });
-  });
-  describe('getBottomLines', () => {
-    it('Should give tail according to the line count', () => {
-      const expected = '2\n3\n4\n5\n6\n7\n8\n9\n10\n11';
-      const content = '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n';
-      assert.strictEqual(getBottomLines(content, 10), expected);
     });
   });
 });

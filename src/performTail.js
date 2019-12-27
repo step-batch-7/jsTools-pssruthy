@@ -17,4 +17,4 @@ const performTail = function(cmdLineArgs, fs) {
   return { err: '', content: tail };
 };
 
-module.exports = { performTail, getBottomLines };
+module.exports = { performTail };
