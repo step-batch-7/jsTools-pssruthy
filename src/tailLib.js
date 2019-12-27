@@ -9,13 +9,9 @@ const getExtractedLines = function(fileContents, lineCount) {
 };
 
 const getFileContent = function(fs, path) {
-  const message = { err: '', content: '' };
-  if (!fs.existsSync(path)) {
-    message.err = `tail: ${path}: No such file or directory`;
-    return message;
-  }
-  message.content = fs.readFileSync(path, 'utf8');
-  return message;
+  const err = `tail: ${path}: No such file or directory`;
+  if (!fs.existsSync(path)) return { err, content: '' };
+  return { err: '', content: fs.readFileSync(path, 'utf8') };
 };
 
 const parseOption = function(cmdLineArgs) {
