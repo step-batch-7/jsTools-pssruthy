@@ -49,7 +49,6 @@ update the functions to get error stream for errors
 ✅ --> getFileContents
 ✅ --> performTail
 
-add configFile
 refract the code 
    ✅ --> move the performTail to tailLib.js
 
