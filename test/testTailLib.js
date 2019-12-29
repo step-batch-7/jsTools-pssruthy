@@ -12,31 +12,39 @@ describe('tailLib', () => {
     const display = stub();
     it('Should extract lines when the line count greater than 10 when line count is not specified', () => {
       const content = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
-      getExtractedLines(content, 10, display);
+      const lineCount = 10;
+      getExtractedLines(content, lineCount, display);
       const result = { err: '', content: '2\n3\n4\n5\n6\n7\n8\n9\n10\n11' };
       assert.ok(display.calledWith(result));
     });
     it('Should extract lines when the line count less than 10 when line count is not specified', () => {
       const content = ['8', '9', '10', '11'];
-      getExtractedLines(content, 10, display);
-      const result = { err: '', content: '8\n9\n10\n11' };
+      const lineCount = 10;
+      getExtractedLines(content, lineCount, display);
+      const result = {
+        err: '',
+        content: '8\n9\n10\n11'
+      };
       assert.ok(display.calledWith(result));
     });
     it('Should extract lines when the number of lines greater than specified  line count', () => {
       const content = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
-      getExtractedLines(content, 4, display);
+      const lineCount = 4;
+      getExtractedLines(content, lineCount, display);
       const result = { err: '', content: '8\n9\n10\n11' };
       assert.ok(display.calledWith(result));
     });
     it('Should extract lines when the number of lines lesser than specified  line count', () => {
       const content = ['8', '9', '10', '11'];
-      getExtractedLines(content, 6, display);
+      const lineCount = 6;
+      getExtractedLines(content, lineCount, display);
       const result = { err: '', content: '8\n9\n10\n11' };
       assert.ok(display.calledWith(result));
     });
     it('Should extract lines when the line number of count is zero', () => {
       const content = ['8', '9', '10', '11'];
-      getExtractedLines(content, 0, display);
+      const lineCount = 0;
+      getExtractedLines(content, lineCount, display);
       const result = { err: '', content: '' };
       assert.ok(display.calledWith(result));
     });

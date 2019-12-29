@@ -64,3 +64,5 @@ refract the code
     Update the test files
     Update the functions
     Update the tail.js
+
+✅ --> Add eslint as devDependencies
