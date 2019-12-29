@@ -10,7 +10,7 @@ const getExtractedLines = function(fileContents, lineCount, display) {
 
 const getFileContent = function(fs, parsedOptions, display) {
   const { fileName, lineCount } = parsedOptions;
-  fs.readFile(fileName, 'utf8', (err, content) => {
+  fs.readFile(fileName[0], 'utf8', (err, content) => {
     if (err) {
       const err = `tail: ${fileName}: No such file or directory`;
       display({ err, content: EMPTY_STRING });
@@ -23,7 +23,7 @@ const getFileContent = function(fs, parsedOptions, display) {
 };
 
 const parseOption = function(cmdLineArgs) {
-  const parsedOptions = { lineCount: 10, fileName: cmdLineArgs[zero] };
+  const parsedOptions = { lineCount: 10, fileName: cmdLineArgs.slice(zero) };
   if (cmdLineArgs[zero] === '-n') {
     let index = 1;
     const lineCount = cmdLineArgs[index];
@@ -32,7 +32,7 @@ const parseOption = function(cmdLineArgs) {
     }
     parsedOptions.lineCount = Math.abs(+lineCount);
     index++;
-    parsedOptions.fileName = cmdLineArgs[index];
+    parsedOptions.fileName = cmdLineArgs.slice(index);
   }
   return { parsedOptions };
 };

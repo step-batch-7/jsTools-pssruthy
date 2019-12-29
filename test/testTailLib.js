@@ -58,7 +58,7 @@ describe('tailLib', () => {
         assert.strictEqual(encoding, 'utf8');
         callBack(null, '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
       };
-      const parsedOptions = { lineCount: 5, fileName: 'a.txt' };
+      const parsedOptions = { lineCount: 5, fileName: ['a.txt'] };
       getFileContent({ readFile }, parsedOptions, display);
       const result = { err: '', content: '7\n8\n9\n10\n11' };
       assert.ok(display.calledWith(result));
@@ -67,7 +67,7 @@ describe('tailLib', () => {
       const readFile = function(path, content, callBack) {
         callBack('file does not exist', null);
       };
-      const parsedOptions = { lineCount: 10, fileName: 'badFile' };
+      const parsedOptions = { lineCount: 10, fileName: ['badFile'] };
       getFileContent({ readFile }, parsedOptions, display);
       const result = {
         err: 'tail: badFile: No such file or directory',
@@ -78,13 +78,15 @@ describe('tailLib', () => {
   });
   describe('parseOptions', () => {
     it('Should give parsed options when the count option is not specified', () => {
-      const expected = { parsedOptions: { lineCount: 10, fileName: 'a.txt' } };
+      const expected = {
+        parsedOptions: { lineCount: 10, fileName: ['a.txt'] }
+      };
       const cmdLineArgs = ['a.txt'];
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give the parsed option when the line count is specified and positive', () => {
-      const expected = { parsedOptions: { lineCount: 3, fileName: 'a.txt' } };
+      const expected = { parsedOptions: { lineCount: 3, fileName: ['a.txt'] } };
       const cmdLineArgs = ['-n', '3', 'a.txt'];
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);
@@ -96,7 +98,7 @@ describe('tailLib', () => {
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give the parsed option when the line count is specified and count is zero', () => {
-      const expected = { parsedOptions: { lineCount: 0, fileName: 'a.txt' } };
+      const expected = { parsedOptions: { lineCount: 0, fileName: ['a.txt'] } };
       const cmdLineArgs = ['-n', '0', 'a.txt'];
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);
@@ -108,7 +110,7 @@ describe('tailLib', () => {
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give the parsed option when the line count is specified and count is negative', () => {
-      const expected = { parsedOptions: { lineCount: 3, fileName: 'a.txt' } };
+      const expected = { parsedOptions: { lineCount: 3, fileName: ['a.txt'] } };
       const cmdLineArgs = ['-n', '-3', 'a.txt'];
       const actual = parseOption(cmdLineArgs);
       assert.deepStrictEqual(actual, expected);

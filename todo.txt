@@ -28,7 +28,6 @@ create a file in src to manage user inputs
 ✅ --> add chai in devDependencies
 
 ✅ --> edit getFileContent to manage not existing file
-not now --> edit getFormattedLines to manage error message
 ✅ --> edit manageUserArgsAndGiveTail to manage error
 
 ✅ --> add runAppTests.sh
@@ -56,9 +55,9 @@ refract the code
 ✅ --> Update runAppTests.sh file
 ✅ --> remove condition in main
 
---> send the file name as array
 ✅ --> pull the performTail to different file
 
+v.0.2.1
 ✅ --> change the readFileSync to readFile
   task needed :>
     Update the test files
@@ -66,3 +65,11 @@ refract the code
     Update the tail.js
 
 ✅ --> Add eslint as devDependencies
+
+v.0.3
+cat a.txt | node tail.js
+task needed :>
+✅ --> send the file name as array
+--> pickMethod
+--> gatherUserInputs
+  
