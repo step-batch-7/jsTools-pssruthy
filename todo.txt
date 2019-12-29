@@ -58,3 +58,9 @@ refract the code
 
 --> send the file name as array
 ✅ --> pull the performTail to different file
+
+✅ --> change the readFileSync to readFile
+  task needed :>
+    Update the test files
+    Update the functions
+    Update the tail.js

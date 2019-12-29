@@ -1,14 +1,23 @@
 'use strict';
 
-const getExtractedLines = function(fileContents, lineCount) {
+const getExtractedLines = function(fileContents, lineCount, display) {
   const extractedLine = fileContents.reverse().slice(0, lineCount);
-  return extractedLine.reverse().join('\n');
+  display({ err: '', content: extractedLine.reverse().join('\n') });
 };
 
-const getFileContent = function(fs, path) {
-  const fileErr = `tail: ${path}: No such file or directory`;
-  if (!fs.existsSync(path)) return { fileErr };
-  return { fileContent: fs.readFileSync(path, 'utf8') };
+const getFileContent = function(fs, parsedOptions, display) {
+  const { fileName, lineCount } = parsedOptions;
+  fs.readFile(fileName, 'utf8', (err, content) => {
+    if (err) {
+      {
+        const err = `tail: ${fileName}: No such file or directory`;
+        display({ err, content: '' });
+      }
+    } else {
+      const lines = content.split('\n').slice(0, -1);
+      getExtractedLines(lines, lineCount, display);
+    }
+  });
 };
 
 const parseOption = function(cmdLineArgs) {

@@ -1,6 +1,6 @@
 'use strict';
 const { assert } = require('chai');
-const { fake, stub } = require('sinon');
+const { stub } = require('sinon');
 const {
   getExtractedLines,
   getFileContent,
@@ -9,57 +9,63 @@ const {
 
 describe('tailLib', () => {
   describe('getExtractedLines', () => {
+    const display = stub();
     it('Should extract lines when the line count greater than 10 when line count is not specified', () => {
       const content = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
-      const actual = getExtractedLines(content, 10);
-      const expected = '2\n3\n4\n5\n6\n7\n8\n9\n10\n11';
-      assert.deepStrictEqual(actual, expected);
+      getExtractedLines(content, 10, display);
+      const result = { err: '', content: '2\n3\n4\n5\n6\n7\n8\n9\n10\n11' };
+      assert.ok(display.calledWith(result));
     });
     it('Should extract lines when the line count less than 10 when line count is not specified', () => {
       const content = ['8', '9', '10', '11'];
-      const actual = getExtractedLines(content, 10);
-      const expected = '8\n9\n10\n11';
-      assert.deepStrictEqual(actual, expected);
+      getExtractedLines(content, 10, display);
+      const result = { err: '', content: '8\n9\n10\n11' };
+      assert.ok(display.calledWith(result));
     });
     it('Should extract lines when the number of lines greater than specified  line count', () => {
       const content = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
-      const actual = getExtractedLines(content, 4);
-      const expected = '8\n9\n10\n11';
-      assert.deepStrictEqual(actual, expected);
+      getExtractedLines(content, 4, display);
+      const result = { err: '', content: '8\n9\n10\n11' };
+      assert.ok(display.calledWith(result));
     });
     it('Should extract lines when the number of lines lesser than specified  line count', () => {
       const content = ['8', '9', '10', '11'];
-      const actual = getExtractedLines(content, 6);
-      const expected = '8\n9\n10\n11';
-      assert.deepStrictEqual(actual, expected);
+      getExtractedLines(content, 6, display);
+      const result = { err: '', content: '8\n9\n10\n11' };
+      assert.ok(display.calledWith(result));
     });
     it('Should extract lines when the line number of count is zero', () => {
       const content = ['8', '9', '10', '11'];
-      const actual = getExtractedLines(content, 0);
-      const expected = '';
-      assert.deepStrictEqual(actual, expected);
+      getExtractedLines(content, 0, display);
+      const result = { err: '', content: '' };
+      assert.ok(display.calledWith(result));
     });
   });
 
   describe('getFileContents', () => {
+    const display = stub();
     it('Should give the file contents when the file exist', () => {
-      const readFileSync = stub()
-        .withArgs('a.txt', 'utf8')
-        .returns('1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
-      const existsSync = stub()
-        .withArgs('a.txt')
-        .returns(true);
-      const expected = { fileContent: '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n' };
-      const actual = getFileContent({ readFileSync, existsSync }, 'a.txt');
-      assert.deepStrictEqual(actual, expected);
+      const readFile = function(path, encoding, callBack) {
+        assert.strictEqual(path, 'a.txt');
+        assert.strictEqual(encoding, 'utf8');
+        callBack(null, '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
+      };
+      const parsedOptions = { lineCount: 5, fileName: 'a.txt' };
+      getFileContent({ readFile }, parsedOptions, display);
+      const result = { err: '', content: '7\n8\n9\n10\n11' };
+      assert.ok(display.calledWith(result));
     });
     it('Should give error message for not existing file', () => {
-      const existsSync = fake.returns(false);
-      const expected = { fileErr: 'tail: badFile: No such file or directory' };
-      assert.deepStrictEqual(
-        getFileContent({ existsSync }, 'badFile'),
-        expected
-      );
+      const readFile = function(path, content, callBack) {
+        callBack('file does not exist', null);
+      };
+      const parsedOptions = { lineCount: 10, fileName: 'badFile' };
+      getFileContent({ readFile }, parsedOptions, display);
+      const result = {
+        err: 'tail: badFile: No such file or directory',
+        content: ''
+      };
+      assert.ok(display.calledWith(result));
     });
   });
   describe('parseOptions', () => {
