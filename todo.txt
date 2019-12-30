@@ -69,7 +69,7 @@ v.0.2.1
 v.0.3
 cat a.txt | node tail.js
 task needed :>
-✅ --> send the file name as array
---> pickMethod
---> gatherUserInputs
+✅ --> send the file name as array in parseOptions function
+✅ --> chooseStream
+✅ --> getStandardInput
   

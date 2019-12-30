@@ -1,13 +1,14 @@
 'use strict';
-const { getFileContent, parseOption } = require('./tailLib');
+const { parseOption, chooseStream } = require('./tailLib');
 
-const performTail = function(cmdLineArgs, fs, display) {
+const performTail = function(cmdLineArgs, inputStreams, display) {
   const from = 2;
   const { optionErr, parsedOptions } = parseOption(cmdLineArgs.slice(from));
   if (optionErr) {
     display({ err: optionErr, content: '' });
   } else {
-    getFileContent(fs, parsedOptions, display);
+    const loadInput = chooseStream(parsedOptions);
+    loadInput(inputStreams, parsedOptions, display);
   }
 };
 
