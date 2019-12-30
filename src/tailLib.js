@@ -1,42 +1,41 @@
 'use strict';
 
 const EMPTY_STRING = '';
-const zero = 0;
+const ZERO = 0;
 
 const getExtractedLines = function(fileContents, lineCount, display) {
-  const extractedLine = fileContents.reverse().slice(zero, lineCount);
+  const extractedLine = fileContents.reverse().slice(ZERO, lineCount);
   display({ err: EMPTY_STRING, content: extractedLine.reverse().join('\n') });
 };
 
 const getFileContent = function(fs, parsedOptions, display) {
   const { fileName, lineCount } = parsedOptions;
-  fs.readFile(fileName[zero], 'utf8', (err, content) => {
+  fs.readFile(fileName[ZERO], 'utf8', (err, content) => {
     if (err) {
       const err = `tail: ${fileName}: No such file or directory`;
-      display({ err, content: EMPTY_STRING });
-    } else {
-      const to = -1;
-      const lines = content.split('\n').slice(zero, to);
-      getExtractedLines(lines, lineCount, display);
+      return display({ err, content: EMPTY_STRING });
     }
+    onInputLoad(content, lineCount, display);
   });
 };
 
-const onInputLoad = function(lineCount, display, data) {
+const onInputLoad = function(data, lineCount, display) {
   const to = -1;
-  const lines = data.split('\n').slice(zero, to);
+  const lines = data.split('\n').slice(ZERO, to);
   getExtractedLines(lines, lineCount, display);
 };
 
 const getStandardInput = function(inputStreams, parsedOptions, display) {
   const { stdin } = inputStreams;
   stdin.setEncoding('utf8');
-  stdin.on('data', onInputLoad.bind(null, parsedOptions.lineCount, display));
+  let content = '';
+  stdin.on('data', function(data){ content = content + data;});
+  stdin.on('end', () => onInputLoad(content, parsedOptions.lineCount, display));
 };
 
 const parseOption = function(cmdLineArgs) {
-  const parsedOptions = { lineCount: 10, fileName: cmdLineArgs.slice(zero) };
-  if (cmdLineArgs[zero] === '-n') {
+  const parsedOptions = { lineCount: 10, fileName: [...cmdLineArgs] };
+  if (cmdLineArgs[ZERO] === '-n') {
     let index = 1;
     const lineCount = cmdLineArgs[index];
     if (!Number.isInteger(+lineCount)) {
@@ -49,8 +48,8 @@ const parseOption = function(cmdLineArgs) {
   return { parsedOptions };
 };
 
-const chooseStream = function(parsedOptions) {
-  if (parsedOptions.fileName.length === zero) {
+const chooseInputStream = function(parsedOptions) {
+  if (parsedOptions.fileName.length === ZERO) {
     return getStandardInput;
   }
   return getFileContent;
@@ -60,5 +59,5 @@ module.exports = {
   getExtractedLines,
   getFileContent,
   parseOption,
-  chooseStream
+  chooseInputStream
 };

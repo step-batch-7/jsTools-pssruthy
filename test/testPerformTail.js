@@ -60,27 +60,34 @@ describe('performTail', () => {
       const result = { err: 'tail: illegal offset -- r', content: '' };
       assert.ok(display.calledWithExactly(result));
     });
-    it('Should give tail for standard input without options', () => {
-      const cmdLineArgs = ['node', 'tail.js'];
-      const stdin = new EventEmitter();
-      stdin.setEncoding = spy();
-      const inputStreams = { readFile: '', stdin };
-      const display = stub();
-      performTail(cmdLineArgs, inputStreams, display);
-      stdin.emit('data', '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
-      const result = { err: '', content: '2\n3\n4\n5\n6\n7\n8\n9\n10\n11' };
-      assert.ok(display.calledWithExactly(result));
+    it('Should give tail for standard input without options', (done) => {
+      const stdin = { setEncoding: fake(), on: fake() };
+      const display = result => {
+        assert.strictEqual(result.content, '2\n3\n4\n5\n6\n7\n8\n9\n10\n11');
+        assert.strictEqual(result.err, '');
+        done();
+      };
+      performTail(['node', 'tail.js'], { readFile: '', stdin }, display);
+      assert(stdin.setEncoding.calledWith('utf8'));
+      assert.strictEqual(stdin.on.firstCall.args[0], 'data');
+      assert.strictEqual(stdin.on.secondCall.args[0], 'end');
+      assert.strictEqual(stdin.on.callCount, 2);
+      stdin.on.firstCall.args[1]('1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
+      stdin.on.secondCall.args[1]();
     });
     it('Should give tail for standard input with the line count is specified', () => {
-      const cmdLineArgs = ['node', 'tail.js', '-n', '5'];
-      const stdin = new EventEmitter();
-      stdin.setEncoding = spy();
-      const inputStreams = { readFile: '', stdin };
-      const display = stub();
-      performTail(cmdLineArgs, inputStreams, display);
-      stdin.emit('data', '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
-      const result = { err: '', content: '7\n8\n9\n10\n11' };
-      assert.ok(display.calledWithExactly(result));
+      const display = (result) => {
+        assert.strictEqual(result.content, '7\n8\n9\n10\n11');
+        assert.strictEqual(result.err, '');
+      };
+      const stdin = {setEncoding: fake(), on: fake()};
+      performTail(['node', 'tail.js', '-n', '5'], { readFile: '', stdin }, display);
+      assert(stdin.on.calledWith, 'utf8');
+      assert.strictEqual(stdin.on.firstCall.args[0], 'data');
+      assert.strictEqual(stdin.on.secondCall.args[0], 'end');
+      assert.strictEqual(stdin.on.callCount, 2);
+      stdin.on.firstCall.args[1]('1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
+      stdin.on.secondCall.args[1]();
     });
   });
 });

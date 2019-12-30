@@ -8,8 +8,8 @@ const main = function() {
     stderr.write(result.err);
     stdout.write(result.content);
   };
-  const inputStream = { readFile, stdin };
-  performTail(process.argv, inputStream, display);
+  const inputStreams = { readFile, stdin };
+  performTail(process.argv, inputStreams, display);
 };
 
 main();
