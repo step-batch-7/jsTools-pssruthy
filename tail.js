@@ -6,7 +6,7 @@ const { stdout, stderr, stdin } = process;
 const main = function() {
   const display = function(result) {
     stderr.write(result.err);
-    stdout.write(result.content);
+    stdout.write(`${result.content}\n`);
   };
   const inputStreams = { readFile, stdin };
   performTail(process.argv, inputStreams, display);
