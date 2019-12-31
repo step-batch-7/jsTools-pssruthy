@@ -1,11 +1,12 @@
 'use strict';
 const { assert } = require('chai');
-const { stub } = require('sinon');
+const { stub, fake} = require('sinon');
 const {
   getExtractedLines,
   getFileContent,
   parseOption
 } = require('../src/tailLib');
+const zero = 0, one = 1, two = 2;
 
 describe('tailLib', () => {
   describe('getExtractedLines', () => {
@@ -48,29 +49,32 @@ describe('tailLib', () => {
   });
 
   describe('getFileContents', () => {
-    const display = stub();
-    it('Should give the file contents when the file exist', () => {
-      const readFile = function(path, encoding, callBack) {
-        assert.strictEqual(path, 'a.txt');
-        assert.strictEqual(encoding, 'utf8');
-        callBack(null, '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
+    it('Should give the file contents when the file exist', (done) => {
+      const readFile = fake();
+      const display = (result) => {
+        assert.strictEqual(result.content, '7\n8\n9\n10\n11');
+        assert.strictEqual(result.err, '');
+        done();
       };
       const parsedOptions = { lineCount: 5, fileName: ['a.txt'] };
-      getFileContent({ readFile }, parsedOptions, display);
-      const result = { err: '', content: '7\n8\n9\n10\n11' };
-      assert.ok(display.calledWith(result));
+      getFileContent({readFile, stdin: ''}, parsedOptions, display);
+      assert(readFile.firstCall.args[zero], 'a.txt');
+      assert(readFile.firstCall.args[one], 'utf8');
+      readFile.firstCall.args[two](null, '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
     });
-    it('Should give error message for not existing file', () => {
-      const readFile = function(path, content, callBack) {
-        callBack('file does not exist', null);
+    it('Should give error message for not existing file', (done) => {
+      const readFile = fake();
+      const display = (result) => {
+        const {content, err} = result;
+        assert.strictEqual(content, '');
+        assert.strictEqual(err, 'tail: badFile: No such file or directory');
+        done();
       };
-      const parsedOptions = { lineCount: 10, fileName: ['badFile'] };
-      getFileContent({ readFile }, parsedOptions, display);
-      const result = {
-        err: 'tail: badFile: No such file or directory',
-        content: ''
-      };
-      assert.ok(display.calledWith(result));
+      const parsedOptions = { lineCount: 5, fileName: ['badFile'] };
+      getFileContent({readFile, stdin: ''}, parsedOptions, display);
+      assert(readFile.firstCall.args[zero], 'badFile');
+      assert(readFile.firstCall.args[one], 'utf8');
+      readFile.firstCall.args[two]( 'file not fount', null);
     });
   });
   describe('parseOptions', () => {
