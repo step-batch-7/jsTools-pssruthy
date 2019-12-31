@@ -29,7 +29,9 @@ const getStandardInput = function(inputStreams, parsedOptions, display) {
   const { stdin } = inputStreams;
   stdin.setEncoding('utf8');
   let content = '';
-  stdin.on('data', function(data){ content = content + data;});
+  stdin.on('data', function(data) {
+    content = content + data;
+  });
   stdin.on('end', () => onInputLoad(content, parsedOptions.lineCount, display));
 };
 
