@@ -4,7 +4,10 @@ const EMPTY_STRING = '';
 const ZERO = 0;
 
 const getExtractedLines = function(fileContents, lineCount, onComplete) {
-  const extractedLine = fileContents.reverse().slice(ZERO, lineCount).reverse();
+  let extractedLine = [];
+  if(lineCount !== ZERO){
+    extractedLine = fileContents.slice(-lineCount);
+  }
   onComplete({ err: EMPTY_STRING, content: extractedLine.join('\n') });
 };
 
