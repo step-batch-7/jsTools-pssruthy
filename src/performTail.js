@@ -8,11 +8,10 @@ const performTail = function(userOptions, inputStreams, onComplete) {
   }  
   const {stdin, readFile} = inputStreams;
   const isFilePresent = parsedOptions.fileName.length;
-  if (isFilePresent) {
-    getFileContent(readFile, parsedOptions, onComplete);
-  } else {
-    getStandardInput(stdin, parsedOptions.lineCount, onComplete);
-  }
+  const readInput = isFilePresent ?
+    () =>   getFileContent(readFile, parsedOptions, onComplete) :
+    () => getStandardInput(stdin, parsedOptions.lineCount, onComplete);
+  readInput();
 };
 
 module.exports = { performTail };
