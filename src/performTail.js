@@ -2,15 +2,15 @@
 const { parseOption, getFileContent, getStandardInput } = require('./tailLib');
 
 const performTail = function(userOptions, inputStreams, onComplete) {
-  const { optionErr, parsedOptions } = parseOption(userOptions);
+  const { optionErr, tailOptions } = parseOption(userOptions);
   if (optionErr) {
     return onComplete({ err: optionErr, content: '' });
   }  
   const {stdin, readFile} = inputStreams;
-  const isFilePresent = parsedOptions.fileName.length;
+  const isFilePresent = tailOptions.fileName.length;
   const readInput = isFilePresent ?
-    () =>   getFileContent(readFile, parsedOptions, onComplete) :
-    () => getStandardInput(stdin, parsedOptions.lineCount, onComplete);
+    () =>   getFileContent(readFile, tailOptions, onComplete) :
+    () => getStandardInput(stdin, tailOptions.lineCount, onComplete);
   readInput();
 };
 

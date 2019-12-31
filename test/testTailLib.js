@@ -61,8 +61,8 @@ describe('tailLib', () => {
         assert.strictEqual(result.err, '');
         done();
       };
-      const parsedOptions = { lineCount: 5, fileName: ['a.txt'] };
-      getFileContent(readFile, parsedOptions, onComplete);
+      const tailOptions = { lineCount: 5, fileName: ['a.txt'] };
+      getFileContent(readFile, tailOptions, onComplete);
       assert(readFile.firstCall.args[zero], 'a.txt');
       assert(readFile.firstCall.args[one], 'utf8');
       readFile.firstCall.args[two](null, '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
@@ -75,22 +75,22 @@ describe('tailLib', () => {
         assert.strictEqual(err, 'tail: badFile: No such file or directory');
         done();
       };
-      const parsedOptions = { lineCount: 5, fileName: ['badFile'] };
-      getFileContent(readFile, parsedOptions, onComplete);
+      const tailOptions = { lineCount: 5, fileName: ['badFile'] };
+      getFileContent(readFile, tailOptions, onComplete);
       assert(readFile.firstCall.args[zero], 'badFile');
       assert(readFile.firstCall.args[one], 'utf8');
       readFile.firstCall.args[two]( 'file not fount', null);
     });
   });
   describe('parseOptions', () => {
-    it('Should give parsed options if the line count is not specified', () => {
-      const parsedOptions = { lineCount: 10, fileName: ['a.txt'] } ;
+    it('Should give tail options if the line count is not specified', () => {
+      const tailOptions = { lineCount: 10, fileName: ['a.txt'] } ;
       const userOptions = ['a.txt'];
       const actual = parseOption(userOptions);
-      assert.deepStrictEqual(actual, {parsedOptions});
+      assert.deepStrictEqual(actual, {tailOptions});
     });
-    it('Should give parsed options if specified line count is valid', () => {
-      const expected = { parsedOptions: { lineCount: 3, fileName: ['a.txt'] } };
+    it('Should give tail options if specified line count is valid', () => {
+      const expected = { tailOptions: { lineCount: 3, fileName: ['a.txt'] } };
       const userOptions = ['-n', '3', 'a.txt'];
       const actual = parseOption(userOptions);
       assert.deepStrictEqual(actual, expected);
@@ -101,11 +101,11 @@ describe('tailLib', () => {
       const actual = parseOption(userOptions);
       assert.deepStrictEqual(actual, expected);
     });
-    it('Should give parsed options if specified line count is zero', () => {
-      const parsedOptions = { lineCount: 0, fileName: ['a.txt'] };
+    it('Should give tail options if specified line count is zero', () => {
+      const tailOptions = { lineCount: 0, fileName: ['a.txt'] };
       const userOptions = ['-n', '0', 'a.txt'];
       const actual = parseOption(userOptions);
-      assert.deepStrictEqual(actual, {parsedOptions});
+      assert.deepStrictEqual(actual, {tailOptions});
     });
     it('Should give error when the line count is an fractional number', () => {
       const expected = { optionErr: 'tail: illegal offset -- 3.3' };
@@ -113,8 +113,8 @@ describe('tailLib', () => {
       const actual = parseOption(userOptions);
       assert.deepStrictEqual(actual, expected);
     });
-    it('Should give parsed option if specified line count is negative', () => {
-      const expected = { parsedOptions: { lineCount: 3, fileName: ['a.txt'] } };
+    it('Should give tail options if specified line count is negative', () => {
+      const expected = { tailOptions: { lineCount: 3, fileName: ['a.txt'] } };
       const userOptions = ['-n', '-3', 'a.txt'];
       const actual = parseOption(userOptions);
       assert.deepStrictEqual(actual, expected);

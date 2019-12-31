@@ -11,8 +11,8 @@ const getExtractedLines = function(fileContents, lineCount, onComplete) {
   onComplete({ err: EMPTY_STRING, content: extractedLine.join('\n') });
 };
 
-const getFileContent = function(readFile, parsedOptions, onComplete) {
-  const { fileName, lineCount } = parsedOptions;
+const getFileContent = function(readFile, tailOptions, onComplete) {
+  const { fileName, lineCount } = tailOptions;
   readFile(fileName[ZERO], 'utf8', (err, content) => {
     if (err) {
       const err = `tail: ${fileName}: No such file or directory`;
@@ -38,18 +38,18 @@ const getStandardInput = function(stdin, lineCount, onComplete) {
 };
 
 const parseOption = function(userOptions) {
-  const parsedOptions = { lineCount: 10, fileName: [...userOptions] };
+  const tailOptions = { lineCount: 10, fileName: [...userOptions] };
   if (userOptions[ZERO] === '-n') {
     let index = 1;
     const lineCount = userOptions[index];
     if (!Number.isInteger(+lineCount)) {
       return { optionErr: `tail: illegal offset -- ${lineCount}` };
     }
-    parsedOptions.lineCount = Math.abs(+lineCount);
+    tailOptions.lineCount = Math.abs(+lineCount);
     index++;
-    parsedOptions.fileName = userOptions.slice(index);
+    tailOptions.fileName = userOptions.slice(index);
   }
-  return { parsedOptions };
+  return { tailOptions };
 };
 
 module.exports = {
