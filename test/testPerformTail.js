@@ -3,6 +3,7 @@ const { assert } = require('chai');
 const { fake} = require('sinon');
 const { performTail } = require('./../src/performTail');
 const zero = 0, one = 1, two = 2;
+
 describe('performTail', () => {
   describe('performTail', () => {
     it('Should give last 10 lines if file has more than 10 lines ', (done) => {

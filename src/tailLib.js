@@ -54,16 +54,7 @@ const parseOption = function(userOptions) {
   return { parsedOptions };
 };
 
-const chooseInputMethod = function(parsedOptions) {
-  if (parsedOptions.fileName.length === ZERO) {
-    return getStandardInput;
-  }
-  return getFileContent;
-};
-
 module.exports = {
   getExtractedLines,
-  getFileContent,
-  parseOption,
-  chooseInputMethod
+  parseOption, getFileContent, getStandardInput
 };

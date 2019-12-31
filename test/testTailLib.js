@@ -83,12 +83,10 @@ describe('tailLib', () => {
   });
   describe('parseOptions', () => {
     it('Should give parsed options if the line count is not specified', () => {
-      const expected = {
-        parsedOptions: { lineCount: 10, fileName: ['a.txt'] }
-      };
+      const parsedOptions = { lineCount: 10, fileName: ['a.txt'] } ;
       const userOptions = ['a.txt'];
       const actual = parseOption(userOptions);
-      assert.deepStrictEqual(actual, expected);
+      assert.deepStrictEqual(actual, {parsedOptions});
     });
     it('Should give parsed options if specified line count is valid', () => {
       const expected = { parsedOptions: { lineCount: 3, fileName: ['a.txt'] } };
