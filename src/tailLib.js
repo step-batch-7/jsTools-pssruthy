@@ -11,9 +11,9 @@ const getExtractedLines = function(fileContents, lineCount, onComplete) {
   onComplete({ err: EMPTY_STRING, content: extractedLine.join('\n') });
 };
 
-const getFileContent = function(fs, parsedOptions, onComplete) {
+const getFileContent = function(readFile, parsedOptions, onComplete) {
   const { fileName, lineCount } = parsedOptions;
-  fs.readFile(fileName[ZERO], 'utf8', (err, content) => {
+  readFile(fileName[ZERO], 'utf8', (err, content) => {
     if (err) {
       const err = `tail: ${fileName}: No such file or directory`;
       return onComplete({ err, content: EMPTY_STRING });
@@ -28,8 +28,7 @@ const onInputLoad = function(data, lineCount, onComplete) {
   getExtractedLines(lines, lineCount, onComplete);
 };
 
-const getStandardInput = function(inputStreams, parsedOptions, onComplete) {
-  const { stdin } = inputStreams;
+const getStandardInput = function(stdin, parsedOptions, onComplete) {
   stdin.setEncoding('utf8');
   let content = '';
   stdin.on('data', function(data) {

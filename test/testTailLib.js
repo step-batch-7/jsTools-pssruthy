@@ -61,7 +61,7 @@ describe('tailLib', () => {
         done();
       };
       const parsedOptions = { lineCount: 5, fileName: ['a.txt'] };
-      getFileContent({readFile, stdin: ''}, parsedOptions, onComplete);
+      getFileContent(readFile, parsedOptions, onComplete);
       assert(readFile.firstCall.args[zero], 'a.txt');
       assert(readFile.firstCall.args[one], 'utf8');
       readFile.firstCall.args[two](null, '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
@@ -75,7 +75,7 @@ describe('tailLib', () => {
         done();
       };
       const parsedOptions = { lineCount: 5, fileName: ['badFile'] };
-      getFileContent({readFile, stdin: ''}, parsedOptions, onComplete);
+      getFileContent(readFile, parsedOptions, onComplete);
       assert(readFile.firstCall.args[zero], 'badFile');
       assert(readFile.firstCall.args[one], 'utf8');
       readFile.firstCall.args[two]( 'file not fount', null);

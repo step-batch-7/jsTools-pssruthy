@@ -6,11 +6,12 @@ const performTail = function(userOptions, inputStreams, onComplete) {
   if (optionErr) {
     return onComplete({ err: optionErr, content: '' });
   }  
+  const {stdin, readFile} = inputStreams;
   const isFilePresent = parsedOptions.fileName.length;
   if (isFilePresent) {
-    getFileContent(inputStreams, parsedOptions, onComplete);
+    getFileContent(readFile, parsedOptions, onComplete);
   } else {
-    getStandardInput(inputStreams, parsedOptions, onComplete);
+    getStandardInput(stdin, parsedOptions, onComplete);
   }
 };
 
