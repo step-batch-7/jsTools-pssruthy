@@ -35,22 +35,22 @@ const getStandardInput = function(inputStreams, parsedOptions, display) {
   stdin.on('end', () => onInputLoad(content, parsedOptions.lineCount, display));
 };
 
-const parseOption = function(cmdLineArgs) {
-  const parsedOptions = { lineCount: 10, fileName: [...cmdLineArgs] };
-  if (cmdLineArgs[ZERO] === '-n') {
+const parseOption = function(userOptions) {
+  const parsedOptions = { lineCount: 10, fileName: [...userOptions] };
+  if (userOptions[ZERO] === '-n') {
     let index = 1;
-    const lineCount = cmdLineArgs[index];
+    const lineCount = userOptions[index];
     if (!Number.isInteger(+lineCount)) {
       return { optionErr: `tail: illegal offset -- ${lineCount}` };
     }
     parsedOptions.lineCount = Math.abs(+lineCount);
     index++;
-    parsedOptions.fileName = cmdLineArgs.slice(index);
+    parsedOptions.fileName = userOptions.slice(index);
   }
   return { parsedOptions };
 };
 
-const chooseInputStream = function(parsedOptions) {
+const chooseInputMethod = function(parsedOptions) {
   if (parsedOptions.fileName.length === ZERO) {
     return getStandardInput;
   }
@@ -61,5 +61,5 @@ module.exports = {
   getExtractedLines,
   getFileContent,
   parseOption,
-  chooseInputStream
+  chooseInputMethod
 };

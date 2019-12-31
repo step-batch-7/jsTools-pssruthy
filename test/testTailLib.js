@@ -82,38 +82,38 @@ describe('tailLib', () => {
       const expected = {
         parsedOptions: { lineCount: 10, fileName: ['a.txt'] }
       };
-      const cmdLineArgs = ['a.txt'];
-      const actual = parseOption(cmdLineArgs);
+      const userOptions = ['a.txt'];
+      const actual = parseOption(userOptions);
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give parsed options if specified line count is valid', () => {
       const expected = { parsedOptions: { lineCount: 3, fileName: ['a.txt'] } };
-      const cmdLineArgs = ['-n', '3', 'a.txt'];
-      const actual = parseOption(cmdLineArgs);
+      const userOptions = ['-n', '3', 'a.txt'];
+      const actual = parseOption(userOptions);
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give error when the line count is an alphabet', () => {
       const expected = { optionErr: 'tail: illegal offset -- r' };
-      const cmdLineArgs = ['-n', 'r', 'a.txt'];
-      const actual = parseOption(cmdLineArgs);
+      const userOptions = ['-n', 'r', 'a.txt'];
+      const actual = parseOption(userOptions);
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give parsed options if specified line count is zero', () => {
       const parsedOptions = { lineCount: 0, fileName: ['a.txt'] };
-      const cmdLineArgs = ['-n', '0', 'a.txt'];
-      const actual = parseOption(cmdLineArgs);
+      const userOptions = ['-n', '0', 'a.txt'];
+      const actual = parseOption(userOptions);
       assert.deepStrictEqual(actual, {parsedOptions});
     });
     it('Should give error when the line count is an fractional number', () => {
       const expected = { optionErr: 'tail: illegal offset -- 3.3' };
-      const cmdLineArgs = ['-n', '3.3', 'a.txt'];
-      const actual = parseOption(cmdLineArgs);
+      const userOptions = ['-n', '3.3', 'a.txt'];
+      const actual = parseOption(userOptions);
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give parsed option if specified line count is negative', () => {
       const expected = { parsedOptions: { lineCount: 3, fileName: ['a.txt'] } };
-      const cmdLineArgs = ['-n', '-3', 'a.txt'];
-      const actual = parseOption(cmdLineArgs);
+      const userOptions = ['-n', '-3', 'a.txt'];
+      const actual = parseOption(userOptions);
       assert.deepStrictEqual(actual, expected);
     });
   });

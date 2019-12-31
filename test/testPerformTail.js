@@ -6,33 +6,33 @@ const zero = 0, one = 1, two = 2;
 describe('performTail', () => {
   describe('performTail', () => {
     it('Should give last 10 lines if file has more than 10 lines ', (done) => {
-      const cmdLineArgs = ['node', 'tail.js', 'a.txt'];
+      const userOptions = ['a.txt'];
       const readFile = fake();
       const display = result => {
         assert.strictEqual(result.content, '2\n3\n4\n5\n6\n7\n8\n9\n10\n11');
         assert.strictEqual(result.err, '');
         done();
       };
-      performTail(cmdLineArgs, {readFile, stdin: ''}, display);
+      performTail(userOptions, {readFile, stdin: ''}, display);
       assert.strictEqual(readFile.firstCall.args[zero], 'a.txt');
       assert.strictEqual(readFile.firstCall.args[one], 'utf8');
       readFile.firstCall.args[two](null, '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
     });
     it('Should give last lines for file with less than 10 lines ', (done) => {
-      const cmdLineArgs = ['node', 'tail.js', 'a.txt'];
+      const userOptions = ['a.txt'];
       const readFile = fake();
       const display = result => {
         assert.strictEqual(result.content, '9\n10\n11');
         assert.strictEqual(result.err, '');
         done();
       };
-      performTail(cmdLineArgs, {readFile, stdin: ''}, display);
+      performTail(userOptions, {readFile, stdin: ''}, display);
       assert.strictEqual(readFile.firstCall.args[zero], 'a.txt');
       assert.strictEqual(readFile.firstCall.args[one], 'utf8');
       readFile.firstCall.args[two](null, '9\n10\n11\n');
     });
     it('Should give error message when the file does not exist', (done) => {
-      const cmdLineArgs = ['node', 'tail.js', 'badFile'];
+      const userOptions = ['badFile'];
       const readFile = fake();
       const display = (result) => {
         const {content, err} = result;
@@ -40,29 +40,29 @@ describe('performTail', () => {
         assert.strictEqual(err, 'tail: badFile: No such file or directory');
         done();
       };
-      performTail(cmdLineArgs, { readFile, stdin: '' }, display);
+      performTail(userOptions, { readFile, stdin: '' }, display);
       assert.strictEqual(readFile.firstCall.args[zero], 'badFile');
       assert.strictEqual(readFile.firstCall.args[one], 'utf8');
       readFile.firstCall.args[two]('file not exist', null);
     });
     it('Should give specified lines for valid file and line count', (done) => {
-      const cmdLineArgs = ['node', 'tail.js', '-n', '3', 'a.txt'];
+      const userOptions = ['-n', '3', 'a.txt'];
       const readFile = fake();
       const display = result => {
         assert.strictEqual(result.content, '9\n10\n11');
         assert.strictEqual(result.err, '');
         done();
       };
-      performTail(cmdLineArgs, {readFile, stdin: ''}, display);
+      performTail(userOptions, {readFile, stdin: ''}, display);
       assert.strictEqual(readFile.firstCall.args[zero], 'a.txt');
       assert.strictEqual(readFile.firstCall.args[one], 'utf8');
       readFile.firstCall.args[two](null, '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
     });
     it('Should give error message when the line count is not valid', () => {
-      const cmdLineArgs = ['node', 'tail.js', '-n', 'r', 'tail.js'];
+      const userOptions = ['-n', 'r', 'tail.js'];
       const readFile = fake();
       const display = fake();
-      performTail(cmdLineArgs, { readFile }, display);
+      performTail(userOptions, { readFile }, display);
       const result = { err: 'tail: illegal offset -- r', content: '' };
       assert.ok(display.calledWithExactly(result));
     });
@@ -73,7 +73,7 @@ describe('performTail', () => {
         assert.strictEqual(result.err, '');
         done();
       };
-      performTail(['node', 'tail.js'], { readFile: '', stdin }, display);
+      performTail([], { readFile: '', stdin }, display);
       assert(stdin.setEncoding.calledWith('utf8'));
       assert.strictEqual(stdin.on.firstCall.args[zero], 'data');
       assert.strictEqual(stdin.on.secondCall.args[zero], 'end');
@@ -88,8 +88,8 @@ describe('performTail', () => {
         done();
       };
       const stdin = {setEncoding: fake(), on: fake()};
-      const cmdLineArgs = ['node', 'tail.js', '-n', '5'];
-      performTail(cmdLineArgs, { readFile: '', stdin }, display);
+      const userOptions = ['-n', '5'];
+      performTail(userOptions, { readFile: '', stdin }, display);
       assert(stdin.on.calledWith, 'utf8');
       assert.strictEqual(stdin.on.firstCall.args[zero], 'data');
       assert.strictEqual(stdin.on.secondCall.args[zero], 'end');

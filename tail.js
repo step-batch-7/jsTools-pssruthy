@@ -9,7 +9,8 @@ const main = function() {
     stdout.write(`${result.content}\n`);
   };
   const inputStreams = { readFile, stdin };
-  performTail(process.argv, inputStreams, display);
+  const from = 2;
+  performTail(process.argv.slice(from), inputStreams, display);
 };
 
 main();
