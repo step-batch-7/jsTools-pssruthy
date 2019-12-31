@@ -28,13 +28,12 @@ const onInputLoad = function(data, lineCount, onComplete) {
   getExtractedLines(lines, lineCount, onComplete);
 };
 
-const getStandardInput = function(stdin, parsedOptions, onComplete) {
+const getStandardInput = function(stdin, lineCount, onComplete) {
   stdin.setEncoding('utf8');
   let content = '';
   stdin.on('data', function(data) {
     content = content + data;
   });
-  const lineCount = parsedOptions.lineCount;
   stdin.on('end', () => onInputLoad(content, lineCount, onComplete));
 };
 

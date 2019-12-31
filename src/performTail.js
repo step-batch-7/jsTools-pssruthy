@@ -11,7 +11,7 @@ const performTail = function(userOptions, inputStreams, onComplete) {
   if (isFilePresent) {
     getFileContent(readFile, parsedOptions, onComplete);
   } else {
-    getStandardInput(stdin, parsedOptions, onComplete);
+    getStandardInput(stdin, parsedOptions.lineCount, onComplete);
   }
 };
 

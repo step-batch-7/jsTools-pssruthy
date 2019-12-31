@@ -4,7 +4,8 @@ const { fake} = require('sinon');
 const {
   getExtractedLines,
   getFileContent,
-  parseOption
+  parseOption,
+  getStandardInput
 } = require('../src/tailLib');
 const zero = 0, one = 1, two = 2;
 
@@ -117,6 +118,25 @@ describe('tailLib', () => {
       const userOptions = ['-n', '-3', 'a.txt'];
       const actual = parseOption(userOptions);
       assert.deepStrictEqual(actual, expected);
+    });
+  });
+  describe('getStandardInput', () => {
+    it('Should give last specified lines for standard input', (done) => {
+      const onComplete = (result) => {
+        const {content, err} = result;
+        assert.strictEqual(content, '2\n3\n4\n5\n6\n7\n8\n9\n10\n11');
+        assert.strictEqual(err, '');
+        done();
+      };
+      const stdin = {setEncoding: fake(), on: fake()};
+      const lineCount = 10;
+      getStandardInput(stdin, lineCount, onComplete);
+      assert(stdin.setEncoding.calledWith, 'utf8');
+      assert.strictEqual(stdin.on.firstCall.args[zero], 'data');
+      assert.strictEqual(stdin.on.secondCall.args[zero], 'end');
+      assert.strictEqual(stdin.on.callCount, two);
+      stdin.on.firstCall.args[one]('1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
+      stdin.on.secondCall.args[one]();
     });
   });
 });

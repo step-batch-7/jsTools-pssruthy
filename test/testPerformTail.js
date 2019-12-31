@@ -91,7 +91,7 @@ describe('performTail', () => {
       const stdin = {setEncoding: fake(), on: fake()};
       const userOptions = ['-n', '5'];
       performTail(userOptions, { readFile: '', stdin }, onComplete);
-      assert(stdin.on.calledWith, 'utf8');
+      assert(stdin.setEncoding.calledWith, 'utf8');
       assert.strictEqual(stdin.on.firstCall.args[zero], 'data');
       assert.strictEqual(stdin.on.secondCall.args[zero], 'end');
       assert.strictEqual(stdin.on.callCount, two);
