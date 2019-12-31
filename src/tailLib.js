@@ -3,36 +3,37 @@
 const EMPTY_STRING = '';
 const ZERO = 0;
 
-const getExtractedLines = function(fileContents, lineCount, display) {
-  const extractedLine = fileContents.reverse().slice(ZERO, lineCount);
-  display({ err: EMPTY_STRING, content: extractedLine.reverse().join('\n') });
+const getExtractedLines = function(fileContents, lineCount, onComplete) {
+  const extractedLine = fileContents.reverse().slice(ZERO, lineCount).reverse();
+  onComplete({ err: EMPTY_STRING, content: extractedLine.join('\n') });
 };
 
-const getFileContent = function(fs, parsedOptions, display) {
+const getFileContent = function(fs, parsedOptions, onComplete) {
   const { fileName, lineCount } = parsedOptions;
   fs.readFile(fileName[ZERO], 'utf8', (err, content) => {
     if (err) {
       const err = `tail: ${fileName}: No such file or directory`;
-      return display({ err, content: EMPTY_STRING });
+      return onComplete({ err, content: EMPTY_STRING });
     }
-    onInputLoad(content, lineCount, display);
+    onInputLoad(content, lineCount, onComplete);
   });
 };
 
-const onInputLoad = function(data, lineCount, display) {
+const onInputLoad = function(data, lineCount, onComplete) {
   const to = -1;
   const lines = data.split('\n').slice(ZERO, to);
-  getExtractedLines(lines, lineCount, display);
+  getExtractedLines(lines, lineCount, onComplete);
 };
 
-const getStandardInput = function(inputStreams, parsedOptions, display) {
+const getStandardInput = function(inputStreams, parsedOptions, onComplete) {
   const { stdin } = inputStreams;
   stdin.setEncoding('utf8');
   let content = '';
   stdin.on('data', function(data) {
     content = content + data;
   });
-  stdin.on('end', () => onInputLoad(content, parsedOptions.lineCount, display));
+  const lineCount = parsedOptions.lineCount;
+  stdin.on('end', () => onInputLoad(content, lineCount, onComplete));
 };
 
 const parseOption = function(userOptions) {

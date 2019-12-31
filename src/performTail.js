@@ -1,13 +1,13 @@
 'use strict';
 const { parseOption, chooseInputMethod } = require('./tailLib');
 
-const performTail = function(userOptions, inputStreams, display) {
+const performTail = function(userOptions, inputStreams, onComplete) {
   const { optionErr, parsedOptions } = parseOption(userOptions);
   if (optionErr) {
-    return display({ err: optionErr, content: '' });
+    return onComplete({ err: optionErr, content: '' });
   }
-  const loadInput = chooseInputMethod(parsedOptions);
-  loadInput(inputStreams, parsedOptions, display);
+  const inputMethod = chooseInputMethod(parsedOptions);
+  inputMethod(inputStreams, parsedOptions, onComplete);
 };
 
 module.exports = { performTail };
