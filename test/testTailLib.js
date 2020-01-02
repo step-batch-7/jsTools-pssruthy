@@ -3,9 +3,9 @@ const { assert } = require('chai');
 const { fake} = require('sinon');
 const {
   getExtractedLines,
-  getFileContent,
-  parseOption,
-  getStandardInput
+  executeTailOnFileContent,
+  parseTailOptions,
+  executeTailOnStandardInput
 } = require('../src/tailLib');
 const zero = 0, one = 1, two = 2;
 
@@ -62,7 +62,7 @@ describe('tailLib', () => {
         done();
       };
       const tailOptions = { lineCount: 5, fileName: ['a.txt'] };
-      getFileContent(readFile, tailOptions, onComplete);
+      executeTailOnFileContent(readFile, tailOptions, onComplete);
       assert(readFile.firstCall.args[zero], 'a.txt');
       assert(readFile.firstCall.args[one], 'utf8');
       readFile.firstCall.args[two](null, '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n');
@@ -76,47 +76,47 @@ describe('tailLib', () => {
         done();
       };
       const tailOptions = { lineCount: 5, fileName: ['badFile'] };
-      getFileContent(readFile, tailOptions, onComplete);
+      executeTailOnFileContent(readFile, tailOptions, onComplete);
       assert(readFile.firstCall.args[zero], 'badFile');
       assert(readFile.firstCall.args[one], 'utf8');
       readFile.firstCall.args[two]( 'file not fount', null);
     });
   });
-  describe('parseOptions', () => {
+  describe('parseTailOptions', () => {
     it('Should give tail options if the line count is not specified', () => {
       const tailOptions = { lineCount: 10, fileName: ['a.txt'] } ;
       const userOptions = ['a.txt'];
-      const actual = parseOption(userOptions);
+      const actual = parseTailOptions(userOptions);
       assert.deepStrictEqual(actual, {tailOptions});
     });
     it('Should give tail options if specified line count is valid', () => {
       const expected = { tailOptions: { lineCount: 3, fileName: ['a.txt'] } };
       const userOptions = ['-n', '3', 'a.txt'];
-      const actual = parseOption(userOptions);
+      const actual = parseTailOptions(userOptions);
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give error when the line count is an alphabet', () => {
-      const expected = { optionErr: 'tail: illegal offset -- r' };
+      const expected = { err: 'tail: illegal offset -- r' };
       const userOptions = ['-n', 'r', 'a.txt'];
-      const actual = parseOption(userOptions);
+      const actual = parseTailOptions(userOptions);
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give tail options if specified line count is zero', () => {
       const tailOptions = { lineCount: 0, fileName: ['a.txt'] };
       const userOptions = ['-n', '0', 'a.txt'];
-      const actual = parseOption(userOptions);
+      const actual = parseTailOptions(userOptions);
       assert.deepStrictEqual(actual, {tailOptions});
     });
     it('Should give error when the line count is an fractional number', () => {
-      const expected = { optionErr: 'tail: illegal offset -- 3.3' };
+      const expected = { err: 'tail: illegal offset -- 3.3' };
       const userOptions = ['-n', '3.3', 'a.txt'];
-      const actual = parseOption(userOptions);
+      const actual = parseTailOptions(userOptions);
       assert.deepStrictEqual(actual, expected);
     });
     it('Should give tail options if specified line count is negative', () => {
       const expected = { tailOptions: { lineCount: 3, fileName: ['a.txt'] } };
       const userOptions = ['-n', '-3', 'a.txt'];
-      const actual = parseOption(userOptions);
+      const actual = parseTailOptions(userOptions);
       assert.deepStrictEqual(actual, expected);
     });
   });
@@ -130,7 +130,7 @@ describe('tailLib', () => {
       };
       const stdin = {setEncoding: fake(), on: fake()};
       const lineCount = 10;
-      getStandardInput(stdin, lineCount, onComplete);
+      executeTailOnStandardInput(stdin, lineCount, onComplete);
       assert(stdin.setEncoding.calledWith, 'utf8');
       assert.strictEqual(stdin.on.firstCall.args[zero], 'data');
       assert.strictEqual(stdin.on.secondCall.args[zero], 'end');

@@ -11,9 +11,10 @@ const getExtractedLines = function(fileContents, lineCount, onComplete) {
   onComplete({ err: EMPTY_STRING, content: extractedLine.join('\n') });
 };
 
-const getFileContent = function(readFile, tailOptions, onComplete) {
+const executeTailOnFileContent = function(readFile, tailOptions, onComplete) {
   const { fileName, lineCount } = tailOptions;
-  readFile(fileName[ZERO], 'utf8', (err, content) => {
+  const [filePath] = fileName;
+  readFile(filePath, 'utf8', (err, content) => {
     if (err) {
       const err = `tail: ${fileName}: No such file or directory`;
       return onComplete({ err, content: EMPTY_STRING });
@@ -23,27 +24,27 @@ const getFileContent = function(readFile, tailOptions, onComplete) {
 };
 
 const onInputLoad = function(data, lineCount, onComplete) {
-  const to = -1;
-  const lines = data.split('\n').slice(ZERO, to);
+  const lastIndex = -1;
+  const lines = data.split('\n').slice(ZERO, lastIndex);
   getExtractedLines(lines, lineCount, onComplete);
 };
 
-const getStandardInput = function(stdin, lineCount, onComplete) {
+const executeTailOnStandardInput = function(stdin, lineCount, onComplete) {
   stdin.setEncoding('utf8');
   let content = '';
-  stdin.on('data', function(data) {
-    content = content + data;
-  });
+  stdin.on('data', (data) =>  { 
+    content = content + data; 
+  } );
   stdin.on('end', () => onInputLoad(content, lineCount, onComplete));
 };
 
-const parseOption = function(userOptions) {
+const parseTailOptions = function(userOptions) {
   const tailOptions = { lineCount: 10, fileName: [...userOptions] };
   if (userOptions[ZERO] === '-n') {
     let index = 1;
     const lineCount = userOptions[index];
     if (!Number.isInteger(+lineCount)) {
-      return { optionErr: `tail: illegal offset -- ${lineCount}` };
+      return { err: `tail: illegal offset -- ${lineCount}` };
     }
     tailOptions.lineCount = Math.abs(+lineCount);
     index++;
@@ -54,5 +55,7 @@ const parseOption = function(userOptions) {
 
 module.exports = {
   getExtractedLines,
-  parseOption, getFileContent, getStandardInput
+  parseTailOptions,
+  executeTailOnFileContent, 
+  executeTailOnStandardInput
 };

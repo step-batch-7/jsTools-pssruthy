@@ -1,17 +1,19 @@
 'use strict';
-const { parseOption, getFileContent, getStandardInput } = require('./tailLib');
+const { parseTailOptions,
+  executeTailOnFileContent, 
+  executeTailOnStandardInput } = require('./tailLib');
 
-const performTail = function(userOptions, inputStreams, onComplete) {
-  const { optionErr, tailOptions } = parseOption(userOptions);
-  if (optionErr) {
-    return onComplete({ err: optionErr, content: '' });
+const performTail = function(userOptions, inputLoaders, onComplete) {
+  const { err, tailOptions } = parseTailOptions(userOptions);
+  if (err) {
+    return onComplete({ err, content: '' });
   }  
-  const {stdin, readFile} = inputStreams;
+  const {stdin, readFile} = inputLoaders;
   const isFilePresent = tailOptions.fileName.length;
-  const readInput = isFilePresent ?
-    () =>   getFileContent(readFile, tailOptions, onComplete) :
-    () => getStandardInput(stdin, tailOptions.lineCount, onComplete);
-  readInput();
+  const executeTail = isFilePresent ?
+    () => executeTailOnFileContent(readFile, tailOptions, onComplete) :
+    () => executeTailOnStandardInput(stdin, tailOptions.lineCount, onComplete);
+  executeTail();
 };
 
 module.exports = { performTail };

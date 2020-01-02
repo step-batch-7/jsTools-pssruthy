@@ -63,7 +63,7 @@ describe('performTail', () => {
       const userOptions = ['-n', 'r', 'tail.js'];
       const readFile = fake();
       const onComplete = fake();
-      performTail(userOptions, { readFile }, onComplete);
+      performTail(userOptions, { readFile, stdin: ''}, onComplete);
       const result = { err: 'tail: illegal offset -- r', content: '' };
       assert.ok(onComplete.calledWithExactly(result));
     });
