@@ -5,14 +5,14 @@ const {
   getExtractedLines,
   executeTailOnFileContent,
   parseTailOptions,
-  executeTailOnStandardInput
+  executeTailOnStdIn
 } = require('../src/tailLib');
 const zero = 0, one = 1, two = 2;
 
 describe('tailLib', () => {
   describe('getExtractedLines', () => {
     it('Should extract last 10 lines if has more than 10 lines ', () => {
-      const content = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+      const content = '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n';
       const lineCount = 10;
       const onComplete = fake();
       getExtractedLines(content, lineCount, onComplete);
@@ -20,7 +20,7 @@ describe('tailLib', () => {
       assert.ok(onComplete.calledWithExactly(result));
     });
     it('Should extract all lines if has less than 10 lines', () => {
-      const content = ['8', '9', '10', '11'];
+      const content = '8\n9\n10\n11\n';
       const lineCount = 10;
       const onComplete = fake();
       getExtractedLines(content, lineCount, onComplete);
@@ -28,7 +28,7 @@ describe('tailLib', () => {
       assert.ok(onComplete.calledWithExactly(result));
     });
     it('Should extract specified lines if has more than line count', () => {
-      const content = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+      const content = '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n';
       const lineCount = 4;
       const onComplete = fake();
       getExtractedLines(content, lineCount, onComplete);
@@ -36,7 +36,7 @@ describe('tailLib', () => {
       assert.ok(onComplete.calledWithExactly(result));
     });
     it('Should extract specified lines if has less than line count', () => {
-      const content = ['8', '9', '10', '11'];
+      const content = '8\n9\n10\n11\n';
       const lineCount = 6;
       const onComplete = fake();
       getExtractedLines(content, lineCount, onComplete);
@@ -44,7 +44,7 @@ describe('tailLib', () => {
       assert.ok(onComplete.calledWithExactly(result));
     });
     it('Should extract lines when the line number of count is zero', () => {
-      const content = ['8', '9', '10', '11'];
+      const content = '8\n9\n10\n11\n';
       const lineCount = 0;
       const onComplete = fake();
       getExtractedLines(content, lineCount, onComplete);
@@ -130,7 +130,7 @@ describe('tailLib', () => {
       };
       const stdin = {setEncoding: fake(), on: fake()};
       const lineCount = 10;
-      executeTailOnStandardInput(stdin, lineCount, onComplete);
+      executeTailOnStdIn(stdin, lineCount, onComplete);
       assert(stdin.setEncoding.calledWith, 'utf8');
       assert.strictEqual(stdin.on.firstCall.args[zero], 'data');
       assert.strictEqual(stdin.on.secondCall.args[zero], 'end');

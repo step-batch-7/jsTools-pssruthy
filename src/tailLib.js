@@ -3,10 +3,11 @@
 const EMPTY_STRING = '';
 const ZERO = 0;
 
-const getExtractedLines = function(fileContents, lineCount, onComplete) {
+const getExtractedLines = function(content, lineCount, onComplete) {
+  const lines = getSplittedLines(content);
   let extractedLine = [];
   if(lineCount !== ZERO){
-    extractedLine = fileContents.slice(-lineCount);
+    extractedLine = lines.slice(-lineCount);
   }
   onComplete({ err: EMPTY_STRING, content: extractedLine.join('\n') });
 };
@@ -19,23 +20,23 @@ const executeTailOnFileContent = function(readFile, tailOptions, onComplete) {
       const err = `tail: ${fileName}: No such file or directory`;
       return onComplete({ err, content: EMPTY_STRING });
     }
-    onInputLoad(content, lineCount, onComplete);
+    getExtractedLines(content, lineCount, onComplete);
   });
 };
 
-const onInputLoad = function(data, lineCount, onComplete) {
+const getSplittedLines = function(data) {
   const lastIndex = -1;
   const lines = data.split('\n').slice(ZERO, lastIndex);
-  getExtractedLines(lines, lineCount, onComplete);
+  return lines;
 };
 
-const executeTailOnStandardInput = function(stdin, lineCount, onComplete) {
+const executeTailOnStdIn = function(stdin, lineCount, onComplete) {
   stdin.setEncoding('utf8');
   let content = '';
   stdin.on('data', (data) =>  { 
     content = content + data; 
   } );
-  stdin.on('end', () => onInputLoad(content, lineCount, onComplete));
+  stdin.on('end', () => getExtractedLines(content, lineCount, onComplete));
 };
 
 const parseTailOptions = function(userOptions) {
@@ -57,5 +58,5 @@ module.exports = {
   getExtractedLines,
   parseTailOptions,
   executeTailOnFileContent, 
-  executeTailOnStandardInput
+  executeTailOnStdIn
 };
