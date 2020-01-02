@@ -3,9 +3,9 @@ const { performTail } = require('./src/performTail');
 const { readFile } = require('fs');
 const { stdout, stderr, stdin } = process;
 
-const write = function(result) {
-  stderr.write(result.err);
-  stdout.write(`${result.content}\n`);
+const write = function({err, content}) {
+  stderr.write(err);
+  stdout.write(`${content}\n`);
 };
 
 const main = function() { 

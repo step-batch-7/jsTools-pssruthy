@@ -25,8 +25,8 @@ const executeTailOnFileContent = function(readFile, tailOptions, onComplete) {
 };
 
 const getSplittedLines = function(data) {
-  const lastIndex = -1;
-  const lines = data.split('\n').slice(ZERO, lastIndex);
+  const content = data.trimEnd();
+  const lines = content.split('\n');
   return lines;
 };
 
