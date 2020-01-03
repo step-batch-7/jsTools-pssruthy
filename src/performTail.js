@@ -1,5 +1,6 @@
 'use strict';
-const { parseTailOptions,
+const {parseTailOptions} = require('./parseTailOptions');
+const {
   executeTailOnFileContent, 
   executeTailOnStdIn } = require('./tailLib');
 
