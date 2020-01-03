@@ -1,7 +1,7 @@
 'use strict';
-const { assert } = require('chai');
-const { fake} = require('sinon');
-const { performTail } = require('./../src/performTail');
+const {assert} = require('chai');
+const {fake} = require('sinon');
+const {performTail} = require('./../src/performTail');
 const zero = 0, one = 1, two = 2;
 
 describe('performTail', () => {
@@ -41,7 +41,7 @@ describe('performTail', () => {
         assert.strictEqual(err, 'tail: badFile: No such file or directory');
         done();
       };
-      performTail(userOptions, { readFile, stdin: '' }, onComplete);
+      performTail(userOptions, {readFile, stdin: ''}, onComplete);
       assert.strictEqual(readFile.firstCall.args[zero], 'badFile');
       assert.strictEqual(readFile.firstCall.args[one], 'utf8');
       readFile.firstCall.args[two]('file not exist', null);
@@ -63,18 +63,18 @@ describe('performTail', () => {
       const userOptions = ['-n', 'r', 'tail.js'];
       const readFile = fake();
       const onComplete = fake();
-      performTail(userOptions, { readFile, stdin: ''}, onComplete);
-      const result = { err: 'tail: illegal offset -- r', content: '' };
+      performTail(userOptions, {readFile, stdin: ''}, onComplete);
+      const result = {err: 'tail: illegal offset -- r', content: ''};
       assert.ok(onComplete.calledWithExactly(result));
     });
     it('Should give tail for standard input without options', (done) => {
-      const stdin = { setEncoding: fake(), on: fake() };
+      const stdin = {setEncoding: fake(), on: fake()};
       const onComplete = result => {
         assert.strictEqual(result.content, '2\n3\n4\n5\n6\n7\n8\n9\n10\n11');
         assert.strictEqual(result.err, '');
         done();
       };
-      performTail([], { readFile: '', stdin }, onComplete);
+      performTail([], {readFile: '', stdin}, onComplete);
       assert(stdin.setEncoding.calledWith('utf8'));
       assert.strictEqual(stdin.on.firstCall.args[zero], 'data');
       assert.strictEqual(stdin.on.secondCall.args[zero], 'end');
@@ -90,7 +90,7 @@ describe('performTail', () => {
       };
       const stdin = {setEncoding: fake(), on: fake()};
       const userOptions = ['-n', '5'];
-      performTail(userOptions, { readFile: '', stdin }, onComplete);
+      performTail(userOptions, {readFile: '', stdin}, onComplete);
       assert(stdin.setEncoding.calledWith, 'utf8');
       assert.strictEqual(stdin.on.firstCall.args[zero], 'data');
       assert.strictEqual(stdin.on.secondCall.args[zero], 'end');

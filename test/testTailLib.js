@@ -1,6 +1,6 @@
 'use strict';
-const { assert } = require('chai');
-const { fake} = require('sinon');
+const {assert} = require('chai');
+const {fake} = require('sinon');
 const {
   getExtractedLines,
   executeTailOnFileContent,
@@ -15,7 +15,7 @@ describe('tailLib', () => {
       const lineCount = 10;
       const onComplete = fake();
       getExtractedLines(content, lineCount, onComplete);
-      const result = { err: '', content: '2\n3\n4\n5\n6\n7\n8\n9\n10\n11' };
+      const result = {err: '', content: '2\n3\n4\n5\n6\n7\n8\n9\n10\n11'};
       assert.ok(onComplete.calledWithExactly(result));
     });
     it('Should extract all lines if has less than 10 lines', () => {
@@ -23,7 +23,7 @@ describe('tailLib', () => {
       const lineCount = 10;
       const onComplete = fake();
       getExtractedLines(content, lineCount, onComplete);
-      const result = { err: '', content: '8\n9\n10\n11' };
+      const result = {err: '', content: '8\n9\n10\n11'};
       assert.ok(onComplete.calledWithExactly(result));
     });
     it('Should extract specified lines if has more than line count', () => {
@@ -31,7 +31,7 @@ describe('tailLib', () => {
       const lineCount = 4;
       const onComplete = fake();
       getExtractedLines(content, lineCount, onComplete);
-      const result = { err: '', content: '8\n9\n10\n11' };
+      const result = {err: '', content: '8\n9\n10\n11'};
       assert.ok(onComplete.calledWithExactly(result));
     });
     it('Should extract specified lines if has less than line count', () => {
@@ -39,7 +39,7 @@ describe('tailLib', () => {
       const lineCount = 6;
       const onComplete = fake();
       getExtractedLines(content, lineCount, onComplete);
-      const result = { err: '', content: '8\n9\n10\n11' };
+      const result = {err: '', content: '8\n9\n10\n11'};
       assert.ok(onComplete.calledWithExactly(result));
     });
     it('Should extract lines when the line number of count is zero', () => {
@@ -47,7 +47,7 @@ describe('tailLib', () => {
       const lineCount = 0;
       const onComplete = fake();
       getExtractedLines(content, lineCount, onComplete);
-      const result = { err: '', content: '' };
+      const result = {err: '', content: ''};
       assert.ok(onComplete.calledWithExactly(result));
     });
     it('Should extract lines if contents not have extra \\n in the end', () => {
@@ -55,7 +55,7 @@ describe('tailLib', () => {
       const lineCount = 3;
       const onComplete = fake();
       getExtractedLines(content, lineCount, onComplete);
-      const result = { err: '', content: '9\n10\n11' };
+      const result = {err: '', content: '9\n10\n11'};
       assert.ok(onComplete.calledWithExactly(result));
     });
   });
@@ -68,7 +68,7 @@ describe('tailLib', () => {
         assert.strictEqual(result.err, '');
         done();
       };
-      const tailOptions = { lineCount: 5, fileName: ['a.txt'] };
+      const tailOptions = {lineCount: 5, fileName: ['a.txt']};
       executeTailOnFileContent(readFile, tailOptions, onComplete);
       assert(readFile.firstCall.args[zero], 'a.txt');
       assert(readFile.firstCall.args[one], 'utf8');
@@ -82,7 +82,7 @@ describe('tailLib', () => {
         assert.strictEqual(err, 'tail: badFile: No such file or directory');
         done();
       };
-      const tailOptions = { lineCount: 5, fileName: ['badFile'] };
+      const tailOptions = {lineCount: 5, fileName: ['badFile']};
       executeTailOnFileContent(readFile, tailOptions, onComplete);
       assert(readFile.firstCall.args[zero], 'badFile');
       assert(readFile.firstCall.args[one], 'utf8');
