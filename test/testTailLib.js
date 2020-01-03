@@ -51,6 +51,14 @@ describe('tailLib', () => {
       const result = { err: '', content: '' };
       assert.ok(onComplete.calledWithExactly(result));
     });
+    it('Should extract lines if contents not have extra \\n in the end', () => {
+      const content = '8\n9\n10\n11';
+      const lineCount = 3;
+      const onComplete = fake();
+      getExtractedLines(content, lineCount, onComplete);
+      const result = { err: '', content: '9\n10\n11' };
+      assert.ok(onComplete.calledWithExactly(result));
+    });
   });
 
   describe('getFileContents', () => {

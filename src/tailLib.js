@@ -14,8 +14,7 @@ const getExtractedLines = function(content, lineCount, onComplete) {
 
 const executeTailOnFileContent = function(readFile, tailOptions, onComplete) {
   const { fileName, lineCount } = tailOptions;
-  const [filePath] = fileName;
-  readFile(filePath, 'utf8', (err, content) => {
+  readFile(fileName[ZERO], 'utf8', (err, content) => {
     if (err) {
       const err = `tail: ${fileName}: No such file or directory`;
       return onComplete({ err, content: EMPTY_STRING });
@@ -25,18 +24,21 @@ const executeTailOnFileContent = function(readFile, tailOptions, onComplete) {
 };
 
 const getSplittedLines = function(data) {
-  const content = data.trimEnd();
-  const lines = content.split('\n');
-  return lines;
+  let content = data;
+  if(data.endsWith('\n')){
+    const lastIndex = -1;
+    content = content.slice(ZERO, lastIndex);
+  }
+  return content.split('\n');
 };
 
 const executeTailOnStdIn = function(stdin, lineCount, onComplete) {
   stdin.setEncoding('utf8');
-  let content = '';
+  let wholeData = '';
   stdin.on('data', (data) =>  { 
-    content = content + data; 
+    wholeData += data; 
   } );
-  stdin.on('end', () => getExtractedLines(content, lineCount, onComplete));
+  stdin.on('end', () => getExtractedLines(wholeData, lineCount, onComplete));
 };
 
 const parseTailOptions = function(userOptions) {
@@ -48,8 +50,7 @@ const parseTailOptions = function(userOptions) {
       return { err: `tail: illegal offset -- ${lineCount}` };
     }
     tailOptions.lineCount = Math.abs(+lineCount);
-    index++;
-    tailOptions.fileName = userOptions.slice(index);
+    tailOptions.fileName = userOptions.slice(++index);
   }
   return { tailOptions };
 };
